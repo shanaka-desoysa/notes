@@ -1,0 +1,28 @@
+site_name: Notes
+theme:
+  name: material
+  icon:
+    logo: material/note
+# theme:
+#     name: readthedocs
+#     highlightjs: true
+#     hljs_languages:
+#         - python
+markdown_extensions:
+  - attr_list
+  - codehilite
+  - admonition
+  - footnotes
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - toc:
+      permalink: true
+
+# nav:
+# - Home: index.md
+# - Notebook: notebooks/notebook.ipynb
+
+plugins:
+  - search
+  - mkdocs-jupyter
