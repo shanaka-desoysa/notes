@@ -77,6 +77,28 @@ optional = false
 python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
+name = "gitdb"
+version = "4.0.5"
+description = "Git Object Database"
+category = "dev"
+optional = false
+python-versions = ">=3.4"
+
+[package.dependencies]
+smmap = ">=3.0.1,<4"
+
+[[package]]
+name = "gitpython"
+version = "3.1.12"
+description = "Python Git Library"
+category = "dev"
+optional = false
+python-versions = ">=3.4"
+
+[package.dependencies]
+gitdb = ">=4.0.1,<5"
+
+[[package]]
 name = "importlib-metadata"
 version = "3.4.0"
 description = "Read metadata from Python packages"
@@ -258,22 +280,6 @@ PyYAML = ">=3.10"
 tornado = ">=5.0"
 
 [[package]]
-name = "mkdocs-jupyter"
-version = "0.15.1"
-description = ""
-category = "dev"
-optional = false
-python-versions = ">=3.7"
-
-[package.dependencies]
-mkdocs = ">=1.1.0"
-nbconvert = ">=6.0.7,<7"
-
-[package.extras]
-dev = ["setuptools", "setuptools-scm", "pylint", "flake8", "black", "isort", "twine", "wheel", "pytest", "pytest-cov", "nbconvert", "mkdocs", "mkdocs-material", "mkdocs-minify-plugin", "pygments", "pymdown-extensions"]
-test = ["pytest"]
-
-[[package]]
 name = "mkdocs-material"
 version = "6.2.6"
 description = "A Material Design theme for MkDocs"
@@ -298,6 +304,21 @@ python-versions = ">=3.5"
 
 [package.dependencies]
 mkdocs-material = ">=5.0.0"
+
+[[package]]
+name = "mknotebooks"
+version = "0.6.2.post0.dev98"
+description = "Plugin for mkdocs to generate markdown documents from jupyter notebooks."
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+gitpython = "*"
+jupyter-client = "*"
+markdown = ">=3.3.3"
+mkdocs = ">=1.1"
+nbconvert = ">=6.0.0"
 
 [[package]]
 name = "nbclient"
@@ -523,6 +544,14 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
+name = "smmap"
+version = "3.0.5"
+description = "A pure Python implementation of a sliding window memory map manager"
+category = "dev"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+
+[[package]]
 name = "testpath"
 version = "0.4.4"
 description = "Test utilities for code working with files and commands"
@@ -598,7 +627,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7.1"
-content-hash = "56f5e0e5693350740cad0e3a60a4e4051997889b315a7442c6292823d44c2b58"
+content-hash = "f40d392988aa8007a3bab95d87563638e1fc0422ac7ea6ea112f63e176b7854d"
 
 [metadata.files]
 async-generator = [
@@ -665,6 +694,14 @@ entrypoints = [
 ]
 future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},
+]
+gitdb = [
+    {file = "gitdb-4.0.5-py3-none-any.whl", hash = "sha256:91f36bfb1ab7949b3b40e23736db18231bf7593edada2ba5c3a174a7b23657ac"},
+    {file = "gitdb-4.0.5.tar.gz", hash = "sha256:c9e1f2d0db7ddb9a704c2a0217be31214e91a4fe1dea1efad19ae42ba0c285c9"},
+]
+gitpython = [
+    {file = "GitPython-3.1.12-py3-none-any.whl", hash = "sha256:867ec3dfb126aac0f8296b19fb63b8c4a399f32b4b6fafe84c4b10af5fa9f7b5"},
+    {file = "GitPython-3.1.12.tar.gz", hash = "sha256:42dbefd8d9e2576c496ed0059f3103dcef7125b9ce16f9d5f9c834aed44a1dac"},
 ]
 importlib-metadata = [
     {file = "importlib_metadata-3.4.0-py3-none-any.whl", hash = "sha256:ace61d5fc652dc280e7b6b4ff732a9c2d40db2c0f92bc6cb74e07b73d53a1771"},
@@ -752,9 +789,6 @@ mkdocs = [
     {file = "mkdocs-1.1.2-py3-none-any.whl", hash = "sha256:096f52ff52c02c7e90332d2e53da862fde5c062086e1b5356a6e392d5d60f5e9"},
     {file = "mkdocs-1.1.2.tar.gz", hash = "sha256:f0b61e5402b99d7789efa032c7a74c90a20220a9c81749da06dbfbcbd52ffb39"},
 ]
-mkdocs-jupyter = [
-    {file = "mkdocs-jupyter-0.15.1.tar.gz", hash = "sha256:12ec960590381c0ea5174b0e723da763d35b2a660c01920f377c30f65a31e9aa"},
-]
 mkdocs-material = [
     {file = "mkdocs-material-6.2.6.tar.gz", hash = "sha256:7effb1aac0505d35b58117a3477083f315f574e4f86f8d6011f6ee7eb9041863"},
     {file = "mkdocs_material-6.2.6-py2.py3-none-any.whl", hash = "sha256:0f00bfcd6eb60f77dee06bfdac5eff5982b99fbc3bce68191cc8f4b2f8f8d60c"},
@@ -762,6 +796,9 @@ mkdocs-material = [
 mkdocs-material-extensions = [
     {file = "mkdocs-material-extensions-1.0.1.tar.gz", hash = "sha256:6947fb7f5e4291e3c61405bad3539d81e0b3cd62ae0d66ced018128af509c68f"},
     {file = "mkdocs_material_extensions-1.0.1-py3-none-any.whl", hash = "sha256:d90c807a88348aa6d1805657ec5c0b2d8d609c110e62b9dce4daf7fa981fa338"},
+]
+mknotebooks = [
+    {file = "mknotebooks-0.6.2.post0.dev98-py3-none-any.whl", hash = "sha256:1d4c7b5a82a31b41c3b5973095601765cbf3571db6ee5921fbe390a6f8c6e8c5"},
 ]
 nbclient = [
     {file = "nbclient-0.5.1-py3-none-any.whl", hash = "sha256:4d6b116187c795c99b9dba13d46e764d596574b14c296d60670c8dfe454db364"},
@@ -931,6 +968,10 @@ regex = [
 six = [
     {file = "six-1.15.0-py2.py3-none-any.whl", hash = "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"},
     {file = "six-1.15.0.tar.gz", hash = "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"},
+]
+smmap = [
+    {file = "smmap-3.0.5-py2.py3-none-any.whl", hash = "sha256:7bfcf367828031dc893530a29cb35eb8c8f2d7c8f2d0989354d75d24c8573714"},
+    {file = "smmap-3.0.5.tar.gz", hash = "sha256:84c2751ef3072d4f6b2785ec7ee40244c6f45eb934d9e543e2c51f1bd3d54c50"},
 ]
 testpath = [
     {file = "testpath-0.4.4-py2.py3-none-any.whl", hash = "sha256:bfcf9411ef4bf3db7579063e0546938b1edda3d69f4e1fb8756991f5951f85d4"},

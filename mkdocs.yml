@@ -28,4 +28,4 @@ markdown_extensions:
 
 plugins:
   - search
-  - mkdocs-jupyter
+  - mknotebooks
