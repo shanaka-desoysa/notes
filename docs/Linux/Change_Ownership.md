@@ -9,5 +9,5 @@ description: Change the ownership of all the files in current directory
 To change the ownership of all the files in current directory.
 
 ```sh
-sudo chown -R $USER:$USER .
+sudo chown -R $USER: .
 ```
