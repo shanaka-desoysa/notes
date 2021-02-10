@@ -1,5 +1,5 @@
 # Package Sizes Installed with pip
-List pf pip packages and the sizes orderd in largest to smallest.
+List of `pip` packages and the sizes.
 
 ## Descending Order
 ```sh
