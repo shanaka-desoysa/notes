@@ -1,6 +1,7 @@
 site_name: Notes
 theme:
   name: material
+  custom_dir: overrides
   icon:
     logo: material/note
 # theme:
