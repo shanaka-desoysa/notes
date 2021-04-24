@@ -1,3 +1,3 @@
-# short-notes
+# notes
 
-<a href="https://shanaka-desoysa.github.io/short-notes/" target="_blank">GitHub Pages</a>
+<a href="https://notes.shanakadesoysa.com/" target="_blank">GitHub Pages</a>

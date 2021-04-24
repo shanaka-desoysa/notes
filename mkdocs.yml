@@ -1,7 +1,7 @@
 site_name: Notes
-site_url: https://shanaka-desoysa.github.io/short-notes/
+site_url: https://notes.shanakadesoysa.com/
 site_author: Shanaka C. DeSoysa
-repo_url: https://github.com/shanaka-desoysa/short-notes/
+repo_url: https://github.com/shanaka-desoysa/notes/
 theme:
   name: material
   custom_dir: overrides

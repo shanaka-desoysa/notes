@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "short-notes"
+name = "notes"
 version = "0.1.0"
 description = ""
 authors = ["Shanaka DeSoysa <shanaka@computer.org>"]
