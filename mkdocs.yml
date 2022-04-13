@@ -6,7 +6,7 @@ docs_dir: docs/
 edit_uri: blob/main/docs/
 theme:
   name: material
-  custom_dir: overrides
+  # custom_dir: overrides
   icon:
     logo: material/note
 # theme:
@@ -35,6 +35,13 @@ markdown_extensions:
 plugins:
   - search
   - mknotebooks
-google_analytics:
-  - UA-135532366-2
-  - auto
+
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin 
+      link: https://www.linkedin.com/in/shanakadesoysa
+    - icon: fontawesome/brands/github 
+      link: https://github.com/shanaka-desoysa
+  analytics:
+    provider: google
+    property: G-FQ0JJJ0W06

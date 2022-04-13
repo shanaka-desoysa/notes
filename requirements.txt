@@ -1,6 +1,6 @@
 # pandas
 # poetry
 mkdocs>=^1.3.0
-mkdocs-material>=6.2.8
-mknotebooks>=0.7.1
+mkdocs-material>=8.2.9
+mknotebooks>=0.7.0
 pygments>=2.11.2
