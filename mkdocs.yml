@@ -2,6 +2,8 @@ site_name: Notes
 site_url: https://notes.shanakadesoysa.com/
 site_author: Shanaka C. DeSoysa
 repo_url: https://github.com/shanaka-desoysa/notes/
+docs_dir: docs/
+edit_uri: blob/main/docs/
 theme:
   name: material
   custom_dir: overrides
