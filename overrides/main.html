@@ -1,15 +1,52 @@
-<!--
+
 {% extends "base.html" %}
 {% block announce %}
 <script>
-    function getUserAgent() {
-        element = document.getElementById("agent");
-        element.innerHTML = navigator.userAgent;
+    function fetchUrlResonse() {
+        var url = 'https://g-3qsbympmha-uc.a.run.app/geocode_client?user_agent=' + navigator.userAgent;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var response = JSON.parse(this.responseText);
+                console.log(response);
+                var element = document.getElementById("geo");
+                element.innerHTML = JSON.stringify(response, null, 2);
+            }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
     }
 </script>
-<img src onerror="getUserAgent()">
-<p id="agent"></p>
+<img src onerror="fetchUrlResonse()">
+<p id="geo"></p>
 {% endblock %}
+
+<!--
+<script>
+    function geocode(position) {
+        const xhttp = new XMLHttpRequest();
+        const url = 'https://geocodefastapi-3qsbympmha-uc.a.run.app/geocode_client?user_agent=' + navigator.userAgent;
+        xhttp.open("GET",  url);
+        xhttp.send();
+        x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
+    }
+
+    function getUserAgent() {
+        var element = document.getElementById("agent");
+        element.innerHTML = navigator.userAgent;
+    }
+
+    function getLocation() {
+        var x = document.getElementById("demo");
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+</script>
+
 
 {% block analytics %}
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ0JJJ0W06"></script>
