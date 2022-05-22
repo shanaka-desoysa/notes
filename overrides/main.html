@@ -3,7 +3,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>
     function fetchUrlResonse() {
-        var url = 'https://g-3qsbympmha-uc.a.run.app/geocode_client?callback=&href' + window.location.href;
+        var url = 'https://g-3qsbympmha-uc.a.run.app/geocode_client?test=1&callback=&href=' + window.location.href;
         $.getJSON(url, function (data) {
             console.log(JSON.stringify(data, null, 2));
             $('#geo').html(JSON.stringify(data, null, 2));
