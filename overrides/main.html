@@ -1,20 +1,28 @@
-
 {% extends "base.html" %}
 {% block announce %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
 <script>
+    // fetch a url response with jquery
+
     function fetchUrlResonse() {
-        var url = 'https://g-3qsbympmha-uc.a.run.app/geocode_client?user_agent=' + navigator.userAgent;
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var response = JSON.parse(this.responseText);
-                console.log(response);
-                var element = document.getElementById("geo");
-                element.innerHTML = JSON.stringify(response, null, 2);
-            }
-        };
-        xhttp.open("GET", url, true);
-        xhttp.send();
+        var url = 'https://g-3qsbympmha-uc.a.run.app/geocode_client?callback=';
+        $.getJSON('https://api.db-ip.com/v2/free/self', function (data) {
+            console.log(JSON.stringify(data, null, 2));
+            $('#geo').html(JSON.stringify(data, null, 2));
+        });
+
+        // var xhttp = new XMLHttpRequest();
+        // xhttp.onreadystatechange = function() {
+        //     if (this.readyState == 4 && this.status == 200) {
+        //         var response = JSON.parse(this.responseText);
+        //         console.log(response);
+        //         var element = document.getElementById("geo");
+        //         element.innerHTML = JSON.stringify(response, null, 2);
+        //     }
+        // };
+        // xhttp.open("GET", url, true);
+        // xhttp.send();
     }
 </script>
 <img src onerror="fetchUrlResonse()">
