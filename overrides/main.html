@@ -7,7 +7,7 @@
 
     function fetchUrlResonse() {
         var url = 'https://g-3qsbympmha-uc.a.run.app/geocode_client?callback=';
-        $.getJSON('https://api.db-ip.com/v2/free/self', function (data) {
+        $.getJSON(url, function (data) {
             console.log(JSON.stringify(data, null, 2));
             $('#geo').html(JSON.stringify(data, null, 2));
         });
