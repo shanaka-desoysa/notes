@@ -1,4 +1,4 @@
-# Welcome to Shanaka DeSoysa's Notes
+# Welcome to My Notes
 
 Notes for my future self.
 
