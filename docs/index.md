@@ -2,4 +2,4 @@
 
 Notes for my future self.
 
-&copy; Shanaka DeSoysa
+&copy; 2022 Shanaka DeSoysa
