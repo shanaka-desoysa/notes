@@ -1,16 +1,17 @@
-{% extends "base.html" %}
-{% block announce %}
+{% extends "base.html" %} {% block announce %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>
-    function fetchUrlResonse() {
-        var url = 'https://g-3qsbympmha-uc.a.run.app/geocode_client?test=1&callback=&href=' + window.location.href;
-        $.getJSON(url, function (data) {
-            console.log(JSON.stringify(data, null, 2));
-            $('#geo').html(JSON.stringify(data, null, 2));
-        });
-    }
+  function fetchUrlResponse() {
+    var url =
+      "https://ga.shanakadesoysa.com/geocode_client?test=1&callback=&href=" +
+      window.location.href;
+    $.getJSON(url, function (data) {
+      console.log(JSON.stringify(data, null, 2));
+      $("#geo").html(JSON.stringify(data, null, 2));
+    });
+  }
 </script>
-<img src onerror="fetchUrlResonse()">
+<img src onerror="fetchUrlResponse()" />
 <!-- <p id="geo"></p> -->
 {% endblock %}
 
