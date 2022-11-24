@@ -5,7 +5,6 @@ date: 2022-11-24T00:00:00
 subtitle: Last updated on 2022-11-24
 description: "EC2 Simple Web Server bootstrap script"
 type: technical_note
-draft: false
 ---
 
 # Run a Simple Web Server
