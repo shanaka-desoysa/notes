@@ -9,8 +9,8 @@ theme:
   custom_dir: overrides
   icon:
     logo: material/note
-# theme:
-#     name: readthedocs
+  # theme:
+  #     name: readthedocs
   highlightjs: true
   hljs_languages:
     - python
@@ -35,12 +35,13 @@ markdown_extensions:
 plugins:
   - search
   - mknotebooks
+  - git-revision-date
 
 extra:
   social:
-    - icon: fontawesome/brands/linkedin 
+    - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/shanakadesoysa
-    - icon: fontawesome/brands/github 
+    - icon: fontawesome/brands/github
       link: https://github.com/shanaka-desoysa
   analytics:
     provider: google
