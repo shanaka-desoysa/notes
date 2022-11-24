@@ -13,10 +13,10 @@
 </script>
 <img src onerror="fetchUrlResponse()" />
 <!-- <p id="geo"></p> -->
-
-{% if page and page.meta and page.meta.date %}
-<h5>Updated "{{ page.meta.date }}"</h5>
-{% endif %} {% endblock %}
+{% endblock %} {% block content %} {% if page and page.meta and page.meta.date
+%}
+<small>Last updated: "{{ page.meta.date }}"</small>
+{{ super() }} {% endif %} {% endblock %}
 
 <!--
 <script>
