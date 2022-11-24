@@ -15,8 +15,10 @@
 <!-- <p id="geo"></p> -->
 {% endblock %} {% block content %} {% if page and page.meta and page.meta.date
 %}
-<small>Last update {{ page.meta.date }}</small>
-{{ super() }} {% endif %} {% endblock %}
+
+{{ super() }}
+<hr/>
+<small>Last update {{ page.meta.date }}</small> {% endif %} {% endblock %}
 
 <!--
 <script>
