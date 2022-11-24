@@ -2,6 +2,7 @@
 title: "EC2 Simple Web Server"
 author: "Shanaka DeSoysa"
 date: 2022-11-24T00:00:00
+subtitle: Last updated on 2022-11-24
 description: "EC2 Simple Web Server bootstrap script"
 type: technical_note
 draft: false
@@ -21,5 +22,3 @@ systemctl start httpd
 systemctl enable httpd
 echo "<h1>Hello World from $(hostname -f)</h1>" > /var/www/html/index.html
 ```
-
-{{ git_revision_date }}
