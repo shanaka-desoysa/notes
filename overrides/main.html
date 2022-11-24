@@ -13,12 +13,11 @@
 </script>
 <img src onerror="fetchUrlResponse()" />
 <!-- <p id="geo"></p> -->
-{% endblock %} {% block content %} {% if page and page.meta and page.meta.date
-%}
-
-{{ super() }}
-<hr/>
-<small>Last update {{ page.meta.date }}</small> {% endif %} {% endblock %}
+{% endblock %} {% block content %} {{ super() }} {% if page and page.meta and
+page.meta.date %}
+<hr />
+<small>Last update {{ page.meta.date }}</small>
+{% endif %} {% endblock %}
 
 <!--
 <script>
