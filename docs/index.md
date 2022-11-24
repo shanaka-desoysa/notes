@@ -1,4 +1,4 @@
-# Welcome to My Notes
+# My Notes
 
 Notes for my future self.
 
