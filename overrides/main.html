@@ -1,4 +1,10 @@
-{% extends "base.html" %} {% block announce %}
+{% extends "base.html" %}
+
+<!-- extra head block -->
+{% block extrahead %} {{ super() }} {% if page and page.meta and
+page.meta.keywords %}
+<meta name="keywords" content="{{ page.meta.keywords }}" />
+{% endif %} {% endblock %} {% block announce %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>
   function fetchUrlResponse() {
@@ -18,46 +24,3 @@ page.meta.date %}
 <hr />
 <small>Last update {{ page.meta.date }}</small>
 {% endif %} {% endblock %}
-
-<!--
-<script>
-    function geocode(position) {
-        const xhttp = new XMLHttpRequest();
-        const url = 'https://geocodefastapi-3qsbympmha-uc.a.run.app/geocode_client?user_agent=' + navigator.userAgent;
-        xhttp.open("GET",  url);
-        xhttp.send();
-        x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
-    }
-
-    function getUserAgent() {
-        var element = document.getElementById("agent");
-        element.innerHTML = navigator.userAgent;
-    }
-
-    function getLocation() {
-        var x = document.getElementById("demo");
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
-        }
-    }
-
-</script>
-
-
-{% block analytics %}
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FQ0JJJ0W06"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', 'G-FQ0JJJ0W06');
-</script>
-
-<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-135532366-2","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}),document.addEventListener("DOMContentSwitch",function(){ga("send","pageview",document.location.pathname)})</script>
-<script async src="https://www.google-analytics.com/analytics.js"></script>
-{% endblock %}
--->
