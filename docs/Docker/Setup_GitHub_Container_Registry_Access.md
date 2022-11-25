@@ -1,11 +1,12 @@
 ---
 title: Setup GitHub Container Registry Access
-date: 2021-05-01 16:00
+date: 2021-05-01
 author: Shanaka DeSoysa
 description: Setup GitHub Container Registry Access to pull docker images.
 ---
 
 # Setup GitHub Container Registry Access
+
 Generate a [GitHub Token](https://github.com/settings/tokens) with `read:packages` scope.
 
 Run command to login to container registry.

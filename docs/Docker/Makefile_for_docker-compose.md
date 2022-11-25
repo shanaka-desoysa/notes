@@ -1,23 +1,24 @@
 ---
 title: Makefile for docker-compose
-date: 2021-04-10 16:00
+date: 2021-04-10
 author: Shanaka DeSoysa
 description: Makefile for basic docker-compose commands.
 ---
 
 # Makefile for docker-compose
+
 Makefile for basic docker-compose commands.
 
 ```sh
 ## Project Name
 ##
-##   Parameters 
+##   Parameters
 ##-------------------------|-----------------------------------------------------------------
 ## COMPOSE_FILE            | Name of compose file (docker-compose.yml)
 ## BUILD_CACHE             | Docker build cache (or --no-cache)
 
 COMPOSE_FILE := docker-compose.yml
-BUILD_CACHE := 
+BUILD_CACHE :=
 #"--no-cache"
 
 THIS_FILE := $(lastword $(MAKEFILE_LIST))
@@ -25,7 +26,7 @@ CMD_ARGUMENTS ?= $(cmd)
 
 .PHONY: help build up start down destroy stop restart logs logs-web ps
 
-##   Commands              
+##   Commands
 ##-------------------------|-----------------------------------------------------------------
 ## help                    | print docs (make help) or dry run a command (make help cmd=run)
 

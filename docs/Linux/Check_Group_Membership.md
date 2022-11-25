@@ -1,6 +1,6 @@
 ---
 title: Check Group Membership
-date: 2021-04-05 16:00
+date: 2021-04-05
 author: Shanaka DeSoysa
 description: Check Group Membership
 ---

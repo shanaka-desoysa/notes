@@ -1,7 +1,7 @@
 ---
 title: "EBS Commands"
 author: "Shanaka DeSoysa"
-date: 2020-06-08T00:00:00
+date: 2020-06-08
 description: "EBS Commands"
 type: technical_note
 draft: true
@@ -10,6 +10,7 @@ draft: true
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html
 
 # EBS Commands
+
 `lsblk`
 
 `sudo file -s /dev/xvdb`
