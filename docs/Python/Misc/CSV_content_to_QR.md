@@ -1,3 +1,10 @@
+---
+title: CSV to QR code
+date: 2024-12-04
+author: Shanaka DeSoysa
+description: Create a QR code for content of a CSV file.
+---
+
 Here's a Python script that reads a CSV file and generates a QR code from its content:
 
 ```python
@@ -38,4 +45,4 @@ print("QR code generated and saved as 'csv_qrcode.png'.")
 
 This script reads the content of a CSV file, converts it to a string, and then generates a QR code from that string. The QR code is saved as an image file named `csv_qrcode.png`.
 
-When you run this script, make sure the CSV file (`data.csv`) is in the same directory as your script. If you have any questions or need further assistance, feel free to ask!
+When you run this script, make sure the CSV file (`data.csv`) is in the same directory as your script.
