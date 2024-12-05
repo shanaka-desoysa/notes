@@ -1,5 +1,5 @@
 ---
-title: Mastering Datetime Conversions in Google Sheets: A Custom Function Hack
+title: Datetime Conversions in Google Sheets
 date: 2024-12-05
 author: Shanaka DeSoysa
 description: Mastering Datetime Conversions in Google Sheets: A Custom Function Hack
@@ -44,7 +44,7 @@ In any cell, type the following formula, replacing A2 with the cell containing t
 
 ## Example:
 
-If cell A2 contains the ISO 8601 string “2023–11–22T13:37:00Z”, the formula =ISOSTRTODATE(A2) will convert it to a Google Sheets datetime value, displaying it in your local time zone.
+If cell A2 contains the ISO 8601 string “2023–11–22T13:37:00Z”, the formula `=ISOSTRTODATE(A2)` will convert it to a Google Sheets datetime value, displaying it in your local time zone.
 
 ## Additional Tips:
 
@@ -52,4 +52,4 @@ Formatting the Output: You can format the output cell to display the datetime in
 Error Handling: Consider adding error handling to the function to gracefully handle invalid input.
 Batch Processing: For large datasets, explore Google Apps Script’s batch processing capabilities to optimize performance.
 Leverage Google Apps Script: Explore other Google Apps Script features to automate tasks, create custom menus, and more.
-By following these steps and using the ISOSTRTODATE function, you can automate the conversion of ISO 8601 datetime strings to Google Sheets datetime values, making your data analysis and manipulation more efficient and accurate.
+By following these steps and using the `ISOSTRTODATE` function, you can automate the conversion of ISO 8601 datetime strings to Google Sheets datetime values, making your data analysis and manipulation more efficient and accurate.
