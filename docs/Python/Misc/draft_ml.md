@@ -317,3 +317,195 @@ If you find that several comments are not well covered by the existing topics, y
 - **Refine Existing Topics**: Adjust the definitions or scope of existing topics to better match the new data.
 
 By following these steps, you can validate whether your existing topics are sufficient for the new survey and make necessary adjustments to improve coverage.
+
+
+
+-----------
+
+# Step 1: Generate Seed Keywords and Descriptions
+
+1. **Work Environment**
+   - **Seed Keywords**: office, workspace, environment, conditions, safety
+   - **Description**: Refers to the physical and psychological conditions of the workplace, including safety, comfort, and overall atmosphere.
+
+2. **Compensation and Benefits**
+   - **Seed Keywords**: salary, benefits, pay, compensation, perks
+   - **Description**: Concerns the financial and non-financial rewards provided to employees, such as salary, bonuses, health insurance, and other perks.
+
+3. **Management and Leadership**
+   - **Seed Keywords**: management, leadership, supervisor, boss, direction
+   - **Description**: Involves the effectiveness, behavior, and style of managers and leaders within the organization.
+
+4. **Career Growth and Development**
+   - **Seed Keywords**: career, growth, development, promotion, advancement
+   - **Description**: Focuses on opportunities for professional development, career advancement, and skill enhancement.
+
+5. **Work-Life Balance**
+   - **Seed Keywords**: work-life, balance, flexibility, hours, personal time
+   - **Description**: Pertains to the balance between work responsibilities and personal life, including flexible working hours and remote work options.
+
+6. **Company Culture**
+   - **Seed Keywords**: culture, values, mission, environment, inclusivity
+   - **Description**: Relates to the company's values, mission, and overall cultural environment, including inclusivity and diversity.
+
+7. **Job Satisfaction**
+   - **Seed Keywords**: satisfaction, happiness, job, role, contentment
+   - **Description**: Measures the level of contentment and fulfillment employees feel in their job roles.
+
+8. **Communication**
+   - **Seed Keywords**: communication, feedback, information, clarity, updates
+   - **Description**: Involves the effectiveness and clarity of communication within the organization, including feedback mechanisms.
+
+9. **Training and Development**
+   - **Seed Keywords**: training, development, learning, skills, education
+   - **Description**: Concerns the availability and quality of training programs and opportunities for skill development.
+
+10. **Job Security**
+    - **Seed Keywords**: security, stability, job, position, layoffs
+    - **Description**: Relates to the stability and security of employees' job positions and the organization's future outlook.
+
+# Step 2: Create and Evaluate the Model
+
+```python
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
+import numpy as np
+
+# Define topics with their seed keywords and descriptions
+topics = {
+    "Work Environment": ["office", "workspace", "environment", "conditions", "safety"],
+    "Compensation and Benefits": ["salary", "benefits", "pay", "compensation", "perks"],
+    "Management and Leadership": ["management", "leadership", "supervisor", "boss", "direction"],
+    "Career Growth and Development": ["career", "growth", "development", "promotion", "advancement"],
+    "Work-Life Balance": ["work-life", "balance", "flexibility", "hours", "personal time"],
+    "Company Culture": ["culture", "values", "mission", "environment", "inclusivity"],
+    "Job Satisfaction": ["satisfaction", "happiness", "job", "role", "contentment"],
+    "Communication": ["communication", "feedback", "information", "clarity", "updates"],
+    "Training and Development": ["training", "development", "learning", "skills", "education"],
+    "Job Security": ["security", "stability", "job", "position", "layoffs"],
+    "Other Topic": []
+}
+
+# Sample survey comments and their topics
+data = {
+    'comment': [
+        "I love the flexible work hours.",
+        "The management is supportive.",
+        "Great work-life balance.",
+        "Need better communication from the top.",
+        "More opportunities for growth would be nice."
+    ],
+    'topics': [
+        ["Work-Life Balance"],
+        ["Management and Leadership"],
+        ["Work-Life Balance"],
+        ["Communication"],
+        ["Career Growth and Development"]
+    ]
+}
+
+# Convert to DataFrame
+df = pd.DataFrame(data)
+
+# Binarize the labels
+from sklearn.preprocessing import MultiLabelBinarizer
+mlb = MultiLabelBinarizer(classes=list(topics.keys()))
+y = mlb.fit_transform(df['topics'])
+
+# Vectorize the comments and seed keywords
+vectorizer = TfidfVectorizer()
+all_text = list(df['comment']) + [kw for kws in topics.values() for kw in kws]
+vectorizer.fit(all_text)
+X = vectorizer.transform(df['comment'])
+
+# Split the data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train the model
+model = OneVsRestClassifier(LogisticRegression(max_iter=1000))
+model.fit(X_train, y_train)
+
+# Predict on the test set
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+print(classification_report(y_test, y_pred, target_names=mlb.classes_))
+
+# Function to predict topics with an "Other" category
+def predict_with_other(model, vectorizer, mlb, comments, threshold=0.2):
+    X_new = vectorizer.transform(comments)
+    probabilities = model.predict_proba(X_new)
+    predictions = (probabilities >= threshold).astype(int)
+    
+    # If no topic exceeds the threshold, classify as "Other"
+    for i in range(predictions.shape[0]):
+        if not np.any(predictions[i]):
+            predictions[i] = np.zeros(predictions.shape[1])
+            predictions[i, -1] = 1  # Assuming the last column is "Other Topic"
+    
+    return mlb.inverse_transform(predictions)
+
+# Example prediction
+new_comments = ["I appreciate the career development programs.", "The cafeteria food needs improvement."]
+predicted_topics = predict_with_other(model, vectorizer, mlb, new_comments)
+print(predicted_topics)
+```
+
+# Step 3: Test the Model on New Survey Data
+
+```python
+# New survey comments for testing
+new_survey_comments = [
+    "The office environment is very comfortable and the management is approachable.",
+    "I am not satisfied with the salary and the benefits provided.",
+    "There is a lack of communication and the work-life balance is poor.",
+    "I appreciate the career growth opportunities and the training programs.",
+    "The company culture is inclusive and supportive."
+]
+
+# Preprocess and vectorize the new survey comments
+new_comment_vectors = vectorizer.transform(new_survey_comments)
+
+# Calculate similarity scores for new survey comments
+def calculate_similarity_scores(comments, topic_vectors):
+    similarity_scores = []
+    
+    for comment_vector in comments:
+        similarities = cosine_similarity(comment_vector, topic_vectors).flatten()
+        similarity_scores.append(similarities)
+    
+    return similarity_scores
+
+# Get similarity scores for new survey comments
+similarity_scores = calculate_similarity_scores(new_comment_vectors, topic_vectors)
+
+# Analyze coverage of predefined topics
+def analyze_coverage(similarity_scores, threshold=0.2):
+    uncovered_comments = []
+    
+    for i, scores in enumerate(similarity_scores):
+        if all(score < threshold for score in scores):
+            uncovered_comments.append(i)
+    
+    return uncovered_comments
+
+# Identify comments that are not well covered by predefined topics
+uncovered_comments = analyze_coverage(similarity_scores)
+
+# Print results
+for i in uncovered_comments:
+    print(f"Uncovered Comment: {new_survey_comments[i]}")
+```
+
+# Step 4: Explain Criteria for Using the Model on New Data
+
+To determine if the model can be used on new data:
+- **Topic Coverage**: Ensure most new comments are well-covered by predefined topics.
+- **Performance Metrics**: Check precision, recall, and F1-score on new data.
+- **Manual Review**: Manually verify the relevance of predicted topics.
+- **Feedback Loop**: Continuously improve the model based on feedback from new data.
+
