@@ -417,63 +417,52 @@ def bootstrap_relative_weights(df, outcome, drivers, focal=None, num_bootstrap=1
 
 # Numba New
 ```python
+from numba import jit, njit, prange
 import numpy as np
-from numba import njit
+import pandas as pd
 import matplotlib.pyplot as plt
 
 @njit
-def compute_rel_wts_jit(sample, outcome_idx, driver_indices):
-    # Placeholder for relativeImp logic
-    # Replace with the actual implementation
-    weights = np.zeros(len(driver_indices))
-    for i, driver_idx in enumerate(driver_indices):
-        weights[i] = np.mean(sample[:, driver_idx] * sample[:, outcome_idx])  # Example logic
-    return weights
+def compute_rel_wts_numba(corrXX, corrXY):
+    w_corrXX, v_corrXX = np.linalg.eig(corrXX)
+    diag = np.diag(np.sqrt(w_corrXX))
+    coef_xz = v_corrXX @ diag @ v_corrXX.T
+    coef_yz = np.linalg.inv(coef_xz) @ corrXY
+    rsquare = np.sum(coef_yz**2)
+    rawWeights = (coef_xz**2) @ (coef_yz**2)
+    normWeights = (rawWeights / rsquare) * 100
+    return rawWeights
 
-@njit
-def random_variable_jit(sample, outcome_idx, driver_indices):
-    # Placeholder for add_random_variable logic
-    # Replace with the actual implementation
-    weights = np.zeros(len(driver_indices))
-    for i, driver_idx in enumerate(driver_indices):
-        weights[i] = np.mean(sample[:, driver_idx] * sample[:, outcome_idx])  # Example logic
-    return weights
-
-@njit
-def bootstrap_loop(data, outcome_idx, driver_indices, num_bootstrap, compare):
-    n_samples = data.shape[0]
+@njit(parallel=True)
+def bootstrap_loop(df_values, num_bootstrap, outcome_idx, driver_indices):
+    n_samples = df_values.shape[0]
     n_drivers = len(driver_indices)
     bootstrap_weights = np.zeros((num_bootstrap, n_drivers))
-    bootstrap_random_variable = np.zeros((num_bootstrap, n_drivers))
-    bootstrap_comparision = np.zeros((num_bootstrap, n_drivers)) if compare else None
 
-    for b in range(num_bootstrap):
-        sample_indices = np.random.choice(n_samples, size=n_samples, replace=True)
-        sample = data[sample_indices]
+    for b in prange(num_bootstrap):
+        indices = np.random.choice(n_samples, size=n_samples, replace=True)
+        sample = df_values[indices]
+        corrALL = np.corrcoef(sample.T)
+        corrXX = corrALL[1:, 1:]
+        corrXY = corrALL[1:, 0]
+        bootstrap_weights[b] = compute_rel_wts_numba(corrXX, corrXY)
 
-        bootstrap_weights[b] = compute_rel_wts_jit(sample, outcome_idx, driver_indices)
-        bootstrap_random_variable[b] = random_variable_jit(sample, outcome_idx, driver_indices)
+    return bootstrap_weights
 
-        if compare:
-            # Placeholder for compare_predictors logic
-            bootstrap_comparision[b] = np.zeros(n_drivers)  # Replace with actual comparison logic
+def bootstarp_relative_weights(df, outcome, drivers, num_bootstrap=10000, alpha=0.05):
+    # Prepare data
+    all_columns = [outcome] + drivers
+    df_numeric = df[all_columns].apply(pd.to_numeric, errors='coerce').dropna()
+    df_values = df_numeric.values
+    outcome_idx = 0
+    driver_indices = list(range(1, len(all_columns)))
 
-    return bootstrap_weights, bootstrap_random_variable, bootstrap_comparision
+    # Run bootstrap loop
+    bootstrap_weights = bootstrap_loop(df_values, num_bootstrap, outcome_idx, driver_indices)
 
-def bootstarp_relative_weights(df, outcome, drivers, focal=None, num_bootstrap=10000, compare="No", alpha=0.05):
-    data = df.to_numpy()
-    outcome_idx = df.columns.get_loc(outcome)
-    driver_indices = [df.columns.get_loc(driver) for driver in drivers]
-    compare_flag = compare == "Yes"
-
-    # Run the bootstrap loop with Numba
-    bootstrap_weights, bootstrap_random_variable, bootstrap_comparision = bootstrap_loop(
-        data, outcome_idx, driver_indices, num_bootstrap, compare_flag
-    )
-
+    # Compute confidence intervals
     ci_level = (1 - alpha) * 100
     ci_relative_weights = np.percentile(bootstrap_weights, [alpha * 100 / 2, 100 - alpha * 100 / 2], axis=0)
-    ci_random_variable = np.percentile(bootstrap_random_variable, [alpha * 100 / 2, 100 - alpha * 100 / 2], axis=0)
 
     result = {
         'relative_weights': {
@@ -482,26 +471,10 @@ def bootstarp_relative_weights(df, outcome, drivers, focal=None, num_bootstrap=1
             'ci_lower': ci_relative_weights[0],
             'ci_upper': ci_relative_weights[1],
             'ci_median': np.median(bootstrap_weights, axis=0),
-        },
-        'random_variable_diff': {
-            'Outcome': outcome,
-            'Drivers': drivers,
-            'ci_lower': ci_random_variable[0],
-            'ci_upper': ci_random_variable[1],
-            'ci_median': np.median(bootstrap_random_variable, axis=0)
         }
     }
 
-    if compare_flag:
-        ci_comparision = np.percentile(bootstrap_comparision, [alpha * 100 / 2, 100 - alpha * 100 / 2], axis=0)
-        comparisions = [f"{d}-{focal}" for d in drivers if d != focal]
-        result['comparision_diff'] = {
-            'comparision': comparisions,
-            'ci_lower': ci_comparision[0],
-            'ci_upper': ci_comparision[1],
-            'ci_median': np.median(bootstrap_comparision, axis=0)
-        }
-
+    # Plot results
     num_drivers = len(drivers)
     plt.figure(figsize=(10, 4 * num_drivers))
 
