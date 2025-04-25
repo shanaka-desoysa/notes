@@ -124,6 +124,74 @@ def optimized_bootstrap_relative_weights(df, outcome, drivers, focal=None, num_b
     return result
 ```
 
+## Parallel Processing with Numba
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from numba import jit, prange
+
+@jit(nopython=True, parallel=True)
+def compute_percentiles(data, alpha):
+    """Compute lower and upper percentiles."""
+    lower = np.percentile(data, alpha * 100 / 2, axis=0)
+    upper = np.percentile(data, 100 - alpha * 100 / 2, axis=0)
+    return lower, upper
+
+@jit(nopython=True, parallel=True)
+def bootstrap_sampling(data, num_bootstrap):
+    """Perform bootstrap sampling and compute results."""
+    num_samples, num_features = data.shape
+    bootstrap_weights = np.zeros((num_bootstrap, num_features))
+    for i in prange(num_bootstrap):
+        indices = np.random.randint(0, num_samples, size=num_samples)
+        sample = data[indices]
+        # Example computation: mean of each column (replace with actual logic)
+        bootstrap_weights[i] = np.mean(sample, axis=0)
+    return bootstrap_weights
+
+def optimized_bootstrap_relative_weights(df, outcome, drivers, num_bootstrap=10000, alpha=0.05):
+    # Convert DataFrame to NumPy array (ensure uniform data type)
+    data = df[drivers].to_numpy(dtype=np.float64)
+
+    # Perform bootstrap sampling using Numba
+    bootstrap_weights = bootstrap_sampling(data, num_bootstrap)
+
+    # Compute confidence intervals
+    ci_lower, ci_upper = compute_percentiles(bootstrap_weights, alpha)
+    ci_median = np.median(bootstrap_weights, axis=0)
+
+    # Prepare result
+    result = {
+        'relative_weights': {
+            'Outcome': outcome,
+            'Drivers': drivers,
+            'ci_lower': ci_lower,
+            'ci_upper': ci_upper,
+            'ci_median': ci_median,
+        }
+    }
+
+    # Plot histograms
+    num_drivers = len(drivers)
+    plt.figure(figsize=(10, 4 * num_drivers))
+    for i, driver in enumerate(drivers):
+        weights = bootstrap_weights[:, i]
+        median = ci_median[i]
+        plt.subplot(num_drivers, 1, i + 1)
+        plt.hist(weights, bins=50, alpha=0.5, color='blue', label='Relative Weights')
+        plt.axvline(ci_lower[i], color='red', linestyle='--', label='Lower Bound')
+        plt.axvline(ci_upper[i], color='green', linestyle='--', label='Upper Bound')
+        plt.axvline(median, color='purple', linestyle='-', label='Median')
+        plt.title(f"Distribution of Relative Weights for {driver}")
+        plt.ylabel('Frequency')
+        plt.legend()
+    plt.show()
+
+    return result
+```
+
+
+
 # Parallel Processing:
 
 The ProcessPoolExecutor is used to distribute the bootstrap sampling across multiple CPU cores.
