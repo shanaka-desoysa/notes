@@ -130,11 +130,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from numba import jit, prange
 
-@jit(nopython=True, parallel=True)
+@jit(nopython=True)
 def compute_percentiles(data, alpha):
-    """Compute lower and upper percentiles."""
-    lower = np.percentile(data, alpha * 100 / 2, axis=0)
-    upper = np.percentile(data, 100 - alpha * 100 / 2, axis=0)
+    """Compute lower and upper percentiles manually."""
+    sorted_data = np.sort(data, axis=0)
+    lower_idx = int(alpha * 0.5 * len(data))
+    upper_idx = int((1 - alpha * 0.5) * len(data))
+    lower = sorted_data[lower_idx]
+    upper = sorted_data[upper_idx]
     return lower, upper
 
 @jit(nopython=True, parallel=True)
