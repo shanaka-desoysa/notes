@@ -133,11 +133,17 @@ from numba import jit, prange
 @jit(nopython=True)
 def compute_percentiles(data, alpha):
     """Compute lower and upper percentiles manually."""
-    sorted_data = np.sort(data, axis=0)
-    lower_idx = int(alpha * 0.5 * len(data))
-    upper_idx = int((1 - alpha * 0.5) * len(data))
-    lower = sorted_data[lower_idx]
-    upper = sorted_data[upper_idx]
+    num_samples, num_features = data.shape
+    lower = np.zeros(num_features)
+    upper = np.zeros(num_features)
+
+    for j in range(num_features):
+        sorted_column = np.sort(data[:, j])  # Sort each column manually
+        lower_idx = int(alpha * 0.5 * num_samples)
+        upper_idx = int((1 - alpha * 0.5) * num_samples)
+        lower[j] = sorted_column[lower_idx]
+        upper[j] = sorted_column[upper_idx]
+
     return lower, upper
 
 @jit(nopython=True, parallel=True)
