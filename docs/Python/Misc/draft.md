@@ -418,90 +418,100 @@ def bootstrap_relative_weights(df, outcome, drivers, focal=None, num_bootstrap=1
 # Numba New
 ```python
 import numpy as np
+from numba import njit
 import matplotlib.pyplot as plt
-from numba import njit, prange
+
+@njit
+def compute_rel_wts_jit(sample, outcome_idx, driver_indices):
+    # Placeholder for relativeImp logic
+    # Replace with the actual implementation
+    weights = np.zeros(len(driver_indices))
+    for i, driver_idx in enumerate(driver_indices):
+        weights[i] = np.mean(sample[:, driver_idx] * sample[:, outcome_idx])  # Example logic
+    return weights
+
+@njit
+def random_variable_jit(sample, outcome_idx, driver_indices):
+    # Placeholder for add_random_variable logic
+    # Replace with the actual implementation
+    weights = np.zeros(len(driver_indices))
+    for i, driver_idx in enumerate(driver_indices):
+        weights[i] = np.mean(sample[:, driver_idx] * sample[:, outcome_idx])  # Example logic
+    return weights
+
+@njit
+def bootstrap_loop(data, outcome_idx, driver_indices, num_bootstrap, compare):
+    n_samples = data.shape[0]
+    n_drivers = len(driver_indices)
+    bootstrap_weights = np.zeros((num_bootstrap, n_drivers))
+    bootstrap_random_variable = np.zeros((num_bootstrap, n_drivers))
+    bootstrap_comparision = np.zeros((num_bootstrap, n_drivers)) if compare else None
+
+    for b in range(num_bootstrap):
+        sample_indices = np.random.choice(n_samples, size=n_samples, replace=True)
+        sample = data[sample_indices]
+
+        bootstrap_weights[b] = compute_rel_wts_jit(sample, outcome_idx, driver_indices)
+        bootstrap_random_variable[b] = random_variable_jit(sample, outcome_idx, driver_indices)
+
+        if compare:
+            # Placeholder for compare_predictors logic
+            bootstrap_comparision[b] = np.zeros(n_drivers)  # Replace with actual comparison logic
+
+    return bootstrap_weights, bootstrap_random_variable, bootstrap_comparision
 
 def bootstarp_relative_weights(df, outcome, drivers, focal=None, num_bootstrap=10000, compare="No", alpha=0.05):
-    def compute_rel_wts(sample):
-        return relativeImp(sample, outcome, drivers)['rawRelaImpt'].values
-    def random_variable(sample):
-        return add_random_variable(sample, outcome, drivers)['rawRelaImpt'].values
-    def compare_preds(sample):
-        return compare_predictors(sample, outcome, drivers, focal)['weightDiff'].values
+    data = df.to_numpy()
+    outcome_idx = df.columns.get_loc(outcome)
+    driver_indices = [df.columns.get_loc(driver) for driver in drivers]
+    compare_flag = compare == "Yes"
 
-    n = len(df)
-    num_drivers = len(drivers)
-    bootstrap_weights = np.zeros((num_bootstrap, num_drivers))
-    bootstrap_random_variable = np.zeros((num_bootstrap, num_drivers))
-    if compare == "Yes":
-        bootstrap_comparision = []
+    # Run the bootstrap loop with Numba
+    bootstrap_weights, bootstrap_random_variable, bootstrap_comparision = bootstrap_loop(
+        data, outcome_idx, driver_indices, num_bootstrap, compare_flag
+    )
 
-    # Pre-generate all bootstrap indices for speed
-    all_indices = np.random.randint(0, n, size=(num_bootstrap, n))
-
-    for i in range(num_bootstrap):
-        indices = all_indices[i]
-        sample = df.iloc[indices]
-        try:
-            bootstrap_weights[i] = compute_rel_wts(sample)
-            bootstrap_random_variable[i] = random_variable(sample)
-            if compare == "Yes":
-                comp_weights = compare_preds(sample)
-                bootstrap_comparision.append(comp_weights)
-        except Exception as e:
-            print(f"Error in bootstrap sample: {e}")
-
-    # Numba-optimized percentile calculation
-    @njit(parallel=True)
-    def compute_percentiles(data, alpha):
-        num_drivers = data.shape[1]
-        lower = np.zeros(num_drivers)
-        upper = np.zeros(num_drivers)
-        for j in prange(num_drivers):
-            col = np.sort(data[:, j])
-            lower[j] = col[int(alpha * 0.5 * len(col))]
-            upper[j] = col[int((1 - alpha * 0.5) * len(col))]
-        return lower, upper
-
-    ci_lower, ci_upper = compute_percentiles(bootstrap_weights, alpha)
-    ci_lower_rv, ci_upper_rv = compute_percentiles(bootstrap_random_variable, alpha)
+    ci_level = (1 - alpha) * 100
+    ci_relative_weights = np.percentile(bootstrap_weights, [alpha * 100 / 2, 100 - alpha * 100 / 2], axis=0)
+    ci_random_variable = np.percentile(bootstrap_random_variable, [alpha * 100 / 2, 100 - alpha * 100 / 2], axis=0)
 
     result = {
         'relative_weights': {
             'Outcome': outcome,
             'Drivers': drivers,
-            'ci_lower': ci_lower,
-            'ci_upper': ci_upper,
+            'ci_lower': ci_relative_weights[0],
+            'ci_upper': ci_relative_weights[1],
             'ci_median': np.median(bootstrap_weights, axis=0),
         },
         'random_variable_diff': {
             'Outcome': outcome,
             'Drivers': drivers,
-            'ci_lower': ci_lower_rv,
-            'ci_upper': ci_upper_rv,
+            'ci_lower': ci_random_variable[0],
+            'ci_upper': ci_random_variable[1],
             'ci_median': np.median(bootstrap_random_variable, axis=0)
         }
     }
 
-    if compare == "Yes":
-        bootstrap_comparision = np.array(bootstrap_comparision)
-        ci_lower_cmp, ci_upper_cmp = compute_percentiles(bootstrap_comparision, alpha)
+    if compare_flag:
+        ci_comparision = np.percentile(bootstrap_comparision, [alpha * 100 / 2, 100 - alpha * 100 / 2], axis=0)
         comparisions = [f"{d}-{focal}" for d in drivers if d != focal]
         result['comparision_diff'] = {
             'comparision': comparisions,
-            'ci_lower': ci_lower_cmp,
-            'ci_upper': ci_upper_cmp,
+            'ci_lower': ci_comparision[0],
+            'ci_upper': ci_comparision[1],
             'ci_median': np.median(bootstrap_comparision, axis=0)
         }
 
+    num_drivers = len(drivers)
     plt.figure(figsize=(10, 4 * num_drivers))
+
     for i, driver in enumerate(drivers):
         weights = bootstrap_weights[:, i]
         median = np.median(weights)
         plt.subplot(num_drivers, 1, i + 1)
         plt.hist(weights, bins=50, alpha=0.5, color='blue', label='Relative Weights')
-        plt.axvline(ci_lower[i], color='red', linestyle='--', label='Lower Bound')
-        plt.axvline(ci_upper[i], color='green', linestyle='--', label='Upper Bound')
+        plt.axvline(ci_relative_weights[0][i], color='red', linestyle='--', label='Lower Bound')
+        plt.axvline(ci_relative_weights[1][i], color='green', linestyle='--', label='Upper Bound')
         plt.axvline(median, color='purple', linestyle='-', label='Median')
         plt.title(f"Distribution of Relative Weights for {driver}")
         plt.ylabel('Frequency')
