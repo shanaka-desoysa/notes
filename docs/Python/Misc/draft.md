@@ -145,8 +145,9 @@ def bootstrap_sampling(data, num_bootstrap):
     for i in prange(num_bootstrap):
         indices = np.random.randint(0, num_samples, size=num_samples)
         sample = data[indices]
-        # Example computation: mean of each column (replace with actual logic)
-        bootstrap_weights[i] = np.mean(sample, axis=0)
+        # Compute mean manually along axis 0
+        for j in range(num_features):
+            bootstrap_weights[i, j] = sample[:, j].sum() / num_samples
     return bootstrap_weights
 
 def optimized_bootstrap_relative_weights(df, outcome, drivers, num_bootstrap=10000, alpha=0.05):
