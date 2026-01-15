@@ -1,0 +1,3653 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Draft ML WIP.">
+      
+      
+        <meta name="author" content="Shanaka DeSoysa">
+      
+      
+        <link rel="canonical" href="https://notes.shanakadesoysa.com/Python/Misc/draft_ml/">
+      
+      
+        <link rel="prev" href="../draft/">
+      
+      
+        <link rel="next" href="../../OSRM/Open_Source_Routing_Machine/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.17">
+    
+    
+      
+        <title>Draft ML - Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.bcfcd587.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/ansi-colours.css">
+    
+      <link rel="stylesheet" href="../../../css/jupyter-cells.css">
+    
+      <link rel="stylesheet" href="../../../css/pandas-dataframe.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-FQ0JJJ0W06"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-FQ0JJJ0W06",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-FQ0JJJ0W06",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+       
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#step-1-vectorize-new-survey-comments" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+            
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+  function fetchUrlResponse() {
+    var url =
+      "https://ga.shanakadesoysa.com/geocode_client?test=1&callback=&href=" +
+      window.location.href;
+    $.getJSON(url, function (data) {
+      console.log(JSON.stringify(data, null, 2));
+      $("#geo").html(JSON.stringify(data, null, 2));
+    });
+  }
+</script>
+<img src onerror="fetchUrlResponse()" />
+<!-- <p id="geo"></p> -->
+
+          </div>
+          
+        </aside>
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Notes" class="md-header__button md-logo" aria-label="Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 10V4.5l5.5 5.5M5 3c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9l-6-6H5Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Draft ML
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/shanaka-desoysa/notes/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Notes" class="md-nav__button md-logo" aria-label="Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 10V4.5l5.5 5.5M5 3c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9l-6-6H5Z"/></svg>
+
+    </a>
+    Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/shanaka-desoysa/notes/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    My Notes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    AWS
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            AWS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../AWS/EC2_simple_web_server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    EC2 Simple Web Server
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    BlockChain
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            BlockChain
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../BlockChain/Blockchain_Explained_in_7_Simple_Functions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blockchain Explained in 7 Simple Functions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Copilot Studio
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Copilot Studio
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Copilot_Studio/EX_Analyzer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Employee Experience Analyzer Agent
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Cyber Security
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Cyber Security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Cyber_Security/ARP_Spoofing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kali Linux ARP Spoofing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Cyber_Security/Monitor_cyber_threats_using_EC2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kali Linux ARP Spoofing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Docker
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Docker
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Docker/Copy_and_list_files_in_named_volume/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a volume, copy files and list files in Docker Named Volume
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Docker/Makefile_for_docker-compose/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Makefile for docker-compose
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Docker/OpenAPI_Editor_and_UI/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Swagger (OpenAPI) UI and Editor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Docker/Setup_GitHub_Container_Registry_Access/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup GitHub Container Registry Access
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Finance
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Finance
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Finance/Calculate_Composite_Rate_for_Series_I_Bonds/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Calculate Composite Rate for Series I Bonds
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Finance/Calculate_Composite_Rate_for_Series_I_Bonds_Latest/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Calculate Composite Rate for Series I Bonds Latest
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Finance/Precious_Metals_Spot_Prices_Comparison/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Precious Metals Spot Prices Comparison
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Git
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Git
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Git/Add_All_FIles_With_Pattern/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git Add All Files with Specific Extension
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Google Sheets
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Google Sheets
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Google_Sheets/custom_google_sheets_function/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mastering Datetime Conversions in Google Sheets: A Custom Function Hack
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Linux
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Linux/Change_Ownership/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Change Ownership of Files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Linux/Check_Group_Membership/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Check Group Membership
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Linux/Dictionary_Words/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Unix Dictionary Words File
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Linux/List_files_exceeding_size/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    List Files Exceeding Certain Size
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Linux/Random_Password/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Random Password Generator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Linux/Sort_Directory_Size/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    List Directories Sorted by Size
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Linux/Symbolic_Link/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Symbolic link
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    MCP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            MCP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../MCP/fastmcp_server_client/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Building a Minimal MCP Server and Client with FastMCP 2.0
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    MacOS
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            MacOS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../MacOS/Find_WiFi_Password/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Find WiFi Password on Mac OS Terminal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../MacOS/Flush_DNS_Cache/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Flush DNS Cache on Mac OS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Misc
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            Misc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Misc/Alaska_RV_Parks_Map/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Alaska RV Parks Map
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Misc/airline_baggage_delay/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Airline Baggage Delay Compensation Rights (DOT Rules)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    PySpark
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            PySpark
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../PySpark/Install_With_Docker_Compose/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PySpark Cluster Setup with Docker Compose
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../PySpark/spark_df_shape/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PySpark custom shape function
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    PyTorch
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            PyTorch
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../PyTorch/gradients/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gradients
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../PyTorch/tensor_basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tensor basics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../PyTorch/tensor_operations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tensor operations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_1" id="__nav_16_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Basics
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_16_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_1">
+            <span class="md-nav__icon md-icon"></span>
+            Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Basics/ASCII/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ASCII
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Basics/ISO_8601/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ISO 8601
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Basics/OrderedDict_LRU_Cache/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OrderedDict LRU Cache
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Basics/pip_package_size/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Python pip Package Sizes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_2" id="__nav_16_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Deep Learning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_16_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_2">
+            <span class="md-nav__icon md-icon"></span>
+            Deep Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Deep_Learning/Sentiment_analysis/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sentiment analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_3" id="__nav_16_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Django
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_16_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_3">
+            <span class="md-nav__icon md-icon"></span>
+            Django
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Django/Django_Pandas_DataFrame_To_jQuery_DataTable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Django Pandas DataFrame To jQuery DataTable
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_4" id="__nav_16_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Flask
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_16_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_4">
+            <span class="md-nav__icon md-icon"></span>
+            Flask
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Flask/Flask_Chat_Colab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Flask Chat Colab
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_5" id="__nav_16_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Jupyter
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_16_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_5">
+            <span class="md-nav__icon md-icon"></span>
+            Jupyter
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Jupyter/Generate_Jupyter_password/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Generate Jupyter password
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Jupyter/Running_JavaScript_in_Jupyter_Notebook/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Running JavaScript in Jupyter Notebook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_16_6" id="__nav_16_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Misc
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_16_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_16_6">
+            <span class="md-nav__icon md-icon"></span>
+            Misc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CSV_content_to_QR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CSV to QR code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Woed2Vec_sklearn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Integrating Word2Vec with Scikit-Learn Pipelines
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../draft/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Draft
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Draft ML
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Draft ML
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-vectorize-new-survey-comments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Vectorize New Survey Comments
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-calculate-similarity-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Calculate Similarity Scores
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-analyze-coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Analyze Coverage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-adjust-topics-if-necessary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Adjust Topics if Necessary
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-generate-seed-keywords-and-descriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Generate Seed Keywords and Descriptions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-create-and-evaluate-the-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Create and Evaluate the Model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-test-the-model-on-new-survey-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Test the Model on New Survey Data
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-explain-criteria-for-using-the-model-on-new-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Explain Criteria for Using the Model on New Data
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Explain Criteria for Using the Model on New Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhanced-table-for-topic-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enhanced Table for Topic Modeling:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_7" id="__nav_16_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    OSRM
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_16_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_7">
+            <span class="md-nav__icon md-icon"></span>
+            OSRM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../OSRM/Open_Source_Routing_Machine/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Open Source Routing Machine
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_8" id="__nav_16_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Pandas
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_16_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_8">
+            <span class="md-nav__icon md-icon"></span>
+            Pandas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pandas/Display_DataFrames_side_by_side/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Display DataFrames side by side
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pandas/Groupby/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Groupby
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pandas/Handle_Null_Values_With_Pandas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Handle Null Values With Pandas
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pandas/MonthBegin_and_MonthEnd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MonthBegin and MonthEnd
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pandas/OpenAI_DataFrame_Accessor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pandas OpenAI DataFrame Accessor
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pandas/Pandas_Value_Counts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pandas Value Counts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pandas/Quandl_Timeseries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quandl Timeseries
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_16_9" id="__nav_16_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Streamlit
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_16_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16_9">
+            <span class="md-nav__icon md-icon"></span>
+            Streamlit
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../streamlit/employee_listening_bubble_network/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Employee Survey Bubble Network (Streamlit)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-vectorize-new-survey-comments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Vectorize New Survey Comments
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-calculate-similarity-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Calculate Similarity Scores
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-analyze-coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Analyze Coverage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-adjust-topics-if-necessary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Adjust Topics if Necessary
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-generate-seed-keywords-and-descriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Generate Seed Keywords and Descriptions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-create-and-evaluate-the-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Create and Evaluate the Model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-test-the-model-on-new-survey-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Test the Model on New Survey Data
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-explain-criteria-for-using-the-model-on-new-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Explain Criteria for Using the Model on New Data
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Explain Criteria for Using the Model on New Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enhanced-table-for-topic-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enhanced Table for Topic Modeling:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                 
+                  
+
+  
+  
+
+
+<p>To classify survey comments into predefined topics, especially when allowing up to three classes per comment, you can follow these steps:</p>
+<ol>
+<li><strong>Data Preparation</strong>:</li>
+<li><strong>Collect and Clean Data</strong>: Gather all survey comments and clean the text by removing any irrelevant information (e.g., special characters, stop words).</li>
+<li>
+<p><strong>Label Data</strong>: If you have a labeled dataset, use it to train your model. If not, you might need to manually label a subset of comments to create a training set.</p>
+</li>
+<li>
+<p><strong>Feature Extraction</strong>:</p>
+</li>
+<li>
+<p><strong>Text Vectorization</strong>: Convert text data into numerical format using techniques like TF-IDF (Term Frequency-Inverse Document Frequency) or word embeddings (e.g., Word2Vec, GloVe, BERT).</p>
+</li>
+<li>
+<p><strong>Model Selection</strong>:</p>
+</li>
+<li><strong>Choose a Classification Algorithm</strong>: Use machine learning models such as Logistic Regression, Support Vector Machines (SVM), or more advanced models like BERT for text classification.</li>
+<li>
+<p><strong>Multi-label Classification</strong>: Since each comment can belong to multiple topics, use multi-label classification techniques. Algorithms like Binary Relevance, Classifier Chains, or neural networks designed for multi-label tasks can be effective.</p>
+</li>
+<li>
+<p><strong>Training the Model</strong>:</p>
+</li>
+<li><strong>Split Data</strong>: Divide your data into training and testing sets.</li>
+<li>
+<p><strong>Train the Model</strong>: Use your training data to train the chosen model. Ensure you use appropriate evaluation metrics like F1-score, Precision, and Recall for multi-label classification.</p>
+</li>
+<li>
+<p><strong>Classification</strong>:</p>
+</li>
+<li>
+<p><strong>Predict Topics</strong>: For each new survey comment, use the trained model to predict the relevant topics. Ensure the model can assign up to three topics per comment.</p>
+</li>
+<li>
+<p><strong>Post-processing</strong>:</p>
+</li>
+<li><strong>Thresholding</strong>: Apply a threshold to the model's output probabilities to decide which topics to assign to each comment.</li>
+<li>
+<p><strong>Evaluation</strong>: Continuously evaluate the model's performance on new data and adjust as necessary.</p>
+</li>
+<li>
+<p><strong>Automation and Integration</strong>:</p>
+</li>
+<li><strong>Automate the Process</strong>: Integrate the model into your survey analysis pipeline to automatically classify new comments.</li>
+<li><strong>Feedback Loop</strong>: Use feedback from the classified comments to retrain and improve the model over time.</li>
+</ol>
+<p>By following these steps, you can effectively classify survey comments into predefined topics, allowing for a more nuanced analysis of employee experience. If you need more detailed guidance on any specific step, feel free to ask!</p>
+<p>Here's an example of how you can use Python with the <code>scikit-learn</code> library to classify survey comments into predefined topics, allowing up to three topics per comment. This example uses a multi-label classification approach with a <code>OneVsRestClassifier</code> and <code>LogisticRegression</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.multiclass</span> <span class="kn">import</span> <span class="n">OneVsRestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
+
+<span class="c1"># Sample data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;comment&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;I love the flexible work hours.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;The management is supportive.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Great work-life balance.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Need better communication from the top.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;More opportunities for growth would be nice.&quot;</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;topics&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;Work Hours&quot;</span><span class="p">,</span> <span class="s2">&quot;Work-Life Balance&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;Management&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;Work-Life Balance&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;Communication&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;Career Growth&quot;</span><span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="c1"># Convert to DataFrame</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Binarize the labels</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MultiLabelBinarizer</span>
+<span class="n">mlb</span> <span class="o">=</span> <span class="n">MultiLabelBinarizer</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">mlb</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;topics&#39;</span><span class="p">])</span>
+
+<span class="c1"># Vectorize the comments</span>
+<span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;comment&#39;</span><span class="p">])</span>
+
+<span class="c1"># Split the data</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Train the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">OneVsRestClassifier</span><span class="p">(</span><span class="n">LogisticRegression</span><span class="p">())</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Predict on the test set</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Evaluate the model</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="n">mlb</span><span class="o">.</span><span class="n">classes_</span><span class="p">))</span>
+
+<span class="c1"># Example prediction</span>
+<span class="n">new_comments</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;I appreciate the career development programs.&quot;</span><span class="p">]</span>
+<span class="n">X_new</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">new_comments</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_new</span><span class="p">)</span>
+<span class="n">predicted_topics</span> <span class="o">=</span> <span class="n">mlb</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">predicted_topics</span><span class="p">)</span>
+</code></pre></div>
+<p>This code does the following:
+1. <strong>Data Preparation</strong>: Creates a sample dataset with comments and their associated topics.
+2. <strong>Label Binarization</strong>: Converts the list of topics into a binary format suitable for multi-label classification.
+3. <strong>Text Vectorization</strong>: Uses TF-IDF to convert text comments into numerical features.
+4. <strong>Model Training</strong>: Trains a <code>OneVsRestClassifier</code> with <code>LogisticRegression</code> on the training data.
+5. <strong>Evaluation</strong>: Evaluates the model's performance on the test set and prints a classification report.
+6. <strong>Prediction</strong>: Demonstrates how to predict topics for new comments.</p>
+<p>You can expand this code to include your full dataset and adjust the model parameters as needed. If you have any specific requirements or need further customization, let me know!</p>
+<p>To test if the same topic structure works on another kind of survey and to include an "Other" topic for themes not covered, you can follow these steps:</p>
+<ol>
+<li><strong>Data Collection and Preparation</strong>:</li>
+<li><strong>Collect New Survey Data</strong>: Gather responses from the new survey.</li>
+<li>
+<p><strong>Clean and Preprocess</strong>: Clean the text data similarly to how you did for the original survey.</p>
+</li>
+<li>
+<p><strong>Feature Extraction</strong>:</p>
+</li>
+<li>
+<p><strong>Vectorize New Survey Comments</strong>: Use the same vectorization method (e.g., TF-IDF) and the same vectorizer instance to transform the new survey comments into numerical features.</p>
+</li>
+<li>
+<p><strong>Model Application</strong>:</p>
+</li>
+<li><strong>Load Pre-trained Model</strong>: Use the model trained on the original survey data.</li>
+<li>
+<p><strong>Predict Topics</strong>: Apply the model to the new survey data to predict topics.</p>
+</li>
+<li>
+<p><strong>Evaluation</strong>:</p>
+</li>
+<li><strong>Manual Review</strong>: Manually review a sample of the predictions to see if the topics make sense in the context of the new survey.</li>
+<li>
+<p><strong>Quantitative Metrics</strong>: If you have labeled data for the new survey, calculate metrics like Precision, Recall, and F1-score to evaluate the model's performance.</p>
+</li>
+<li>
+<p><strong>Incorporate "Other" Topic</strong>:</p>
+</li>
+<li><strong>Thresholding</strong>: Set a probability threshold for topic assignment. If no topic exceeds the threshold, classify the comment as "Other".</li>
+<li><strong>Manual Labeling</strong>: Manually review comments classified as "Other" to identify any new themes that might need to be added to the predefined topics.</li>
+</ol>
+<p>Here's an example of how you can modify the code to include an "Other" topic:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Function to predict topics with an &quot;Other&quot; category</span>
+<span class="k">def</span> <span class="nf">predict_with_other</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">vectorizer</span><span class="p">,</span> <span class="n">mlb</span><span class="p">,</span> <span class="n">comments</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+    <span class="n">X_new</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">comments</span><span class="p">)</span>
+    <span class="n">probabilities</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_new</span><span class="p">)</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="p">(</span><span class="n">probabilities</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1"># If no topic exceeds the threshold, classify as &quot;Other&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
+            <span class="n">predictions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">predictions</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Assuming the last column is &quot;Other&quot;</span>
+
+    <span class="k">return</span> <span class="n">mlb</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+
+<span class="c1"># Example usage</span>
+<span class="n">new_comments</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;I appreciate the career development programs.&quot;</span><span class="p">,</span> <span class="s2">&quot;The cafeteria food needs improvement.&quot;</span><span class="p">]</span>
+<span class="n">predicted_topics</span> <span class="o">=</span> <span class="n">predict_with_other</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">vectorizer</span><span class="p">,</span> <span class="n">mlb</span><span class="p">,</span> <span class="n">new_comments</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">predicted_topics</span><span class="p">)</span>
+</code></pre></div>
+<p>In this code:
+1. <strong>Thresholding</strong>: The <code>predict_with_other</code> function applies a threshold to the predicted probabilities. If no topic exceeds the threshold, the comment is classified as "Other".
+2. <strong>Manual Review</strong>: You can manually review comments classified as "Other" to identify any new themes.</p>
+<p>By following these steps, you can test the applicability of your topic structure on a new survey and ensure that any new themes are captured effectively. If you need further customization or have specific requirements, feel free to ask!</p>
+<hr />
+<p>Here's a Python code snippet that classifies survey comments into predefined topics, including "No Topic" and "Other Topic," and assigns up to 3 classes per survey comment:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Predefined topics</span>
+<span class="n">topics</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Work Environment&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Compensation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Management&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Work-Life Balance&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Career Growth&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Company Culture&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Training and Development&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Job Security&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Benefits&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Communication&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;No Topic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Other Topic&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># Sample survey comments</span>
+<span class="n">survey_comments</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;I am happy with the work environment and the management is supportive.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;The compensation is not competitive and there are no benefits.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;I feel there is no work-life balance and the company culture is toxic.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;There are no opportunities for career growth and job security is a concern.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;The training and development programs are excellent.&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1"># Vectorize the topics and survey comments</span>
+<span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
+<span class="n">topic_vectors</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">topics</span><span class="p">)</span>
+<span class="n">comment_vectors</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">survey_comments</span><span class="p">)</span>
+
+<span class="c1"># Function to classify survey comments to topics</span>
+<span class="k">def</span> <span class="nf">classify_comments</span><span class="p">(</span><span class="n">comments</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">,</span> <span class="n">n_classes</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">classifications</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">comment_vector</span> <span class="ow">in</span> <span class="n">comments</span><span class="p">:</span>
+        <span class="c1"># Calculate cosine similarity between comment and topics</span>
+        <span class="n">similarities</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">comment_vector</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+        <span class="c1"># Get indices of top n_classes topics</span>
+        <span class="n">top_indices</span> <span class="o">=</span> <span class="n">similarities</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[</span><span class="o">-</span><span class="n">n_classes</span><span class="p">:][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Get the corresponding topics</span>
+        <span class="n">top_topics</span> <span class="o">=</span> <span class="p">[</span><span class="n">topics</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">top_indices</span><span class="p">]</span>
+
+        <span class="n">classifications</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">top_topics</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">classifications</span>
+
+<span class="c1"># Classify the survey comments</span>
+<span class="n">classified_comments</span> <span class="o">=</span> <span class="n">classify_comments</span><span class="p">(</span><span class="n">comment_vectors</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">)</span>
+
+<span class="c1"># Print the results</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">comment</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">survey_comments</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Survey Comment: </span><span class="si">{</span><span class="n">comment</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Classified Topics: </span><span class="si">{</span><span class="n">classified_comments</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</code></pre></div>
+<p>This code uses TF-IDF vectorization to convert the survey comments and predefined topics into vectors. It then calculates the cosine similarity between each comment and the topics, selecting the top 3 most similar topics for each comment. You can adjust the <code>n_classes</code> parameter to classify a different number of topics per comment.</p>
+<p>The code classifies a survey comment to "Other Topic" based on the cosine similarity between the comment and the predefined topics. If a comment doesn't closely match any of the specific topics, it might have a higher similarity score with "Other Topic."</p>
+<p>Here's a more detailed explanation:</p>
+<ol>
+<li>
+<p><strong>Vectorization</strong>: The <code>TfidfVectorizer</code> converts both the predefined topics and the survey comments into numerical vectors based on the importance of words.</p>
+</li>
+<li>
+<p><strong>Cosine Similarity</strong>: For each survey comment, the code calculates the cosine similarity between the comment vector and each topic vector. This measures how similar the comment is to each topic.</p>
+</li>
+<li>
+<p><strong>Top Matches</strong>: The code then identifies the top 3 topics with the highest similarity scores for each comment.</p>
+</li>
+</ol>
+<p>If a comment doesn't strongly match any specific topic, the similarity score for "Other Topic" might be among the highest, leading to its classification under "Other Topic."</p>
+<p>For example, if a comment is about something not covered by the predefined topics, it might not have high similarity scores with any of them, but it could still have a relatively higher score with "Other Topic" due to the general nature of this category.</p>
+<p>Would you like to see an example with a specific comment?</p>
+<p>Got it! To validate if the existing topics will cover a new survey, you can follow these steps:</p>
+<ol>
+<li>
+<p><strong>Analyze Topic Coverage</strong>: Check how well the predefined topics match the new survey comments. This involves calculating the similarity between the new comments and the predefined topics.</p>
+</li>
+<li>
+<p><strong>Identify Uncovered Areas</strong>: Determine if there are significant portions of the new survey comments that don't fit well into any of the predefined topics. This can be done by looking at the similarity scores and identifying comments with low scores across all topics.</p>
+</li>
+<li>
+<p><strong>Adjust Topics if Necessary</strong>: If you find that many comments don't fit well into the existing topics, you may need to adjust your predefined topics or add new ones.</p>
+</li>
+</ol>
+<p>Here's a step-by-step approach with code:</p>
+<h3 id="step-1-vectorize-new-survey-comments">Step 1: Vectorize New Survey Comments<a class="headerlink" href="#step-1-vectorize-new-survey-comments" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># New survey comments for testing</span>
+<span class="n">new_survey_comments</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;The office environment is very comfortable and the management is approachable.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;I am not satisfied with the salary and the benefits provided.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;There is a lack of communication and the work-life balance is poor.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;I appreciate the career growth opportunities and the training programs.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;The company culture is inclusive and supportive.&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># Preprocess and vectorize the new survey comments</span>
+<span class="n">new_comment_vectors</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">new_survey_comments</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="step-2-calculate-similarity-scores">Step 2: Calculate Similarity Scores<a class="headerlink" href="#step-2-calculate-similarity-scores" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Calculate similarity scores for new survey comments</span>
+<span class="k">def</span> <span class="nf">calculate_similarity_scores</span><span class="p">(</span><span class="n">comments</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">):</span>
+    <span class="n">similarity_scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">comment_vector</span> <span class="ow">in</span> <span class="n">comments</span><span class="p">:</span>
+        <span class="c1"># Calculate cosine similarity between comment and topics</span>
+        <span class="n">similarities</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">comment_vector</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">similarity_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">similarities</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">similarity_scores</span>
+
+<span class="c1"># Get similarity scores for new survey comments</span>
+<span class="n">similarity_scores</span> <span class="o">=</span> <span class="n">calculate_similarity_scores</span><span class="p">(</span><span class="n">new_comment_vectors</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="step-3-analyze-coverage">Step 3: Analyze Coverage<a class="headerlink" href="#step-3-analyze-coverage" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Analyze coverage of predefined topics</span>
+<span class="k">def</span> <span class="nf">analyze_coverage</span><span class="p">(</span><span class="n">similarity_scores</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+    <span class="n">uncovered_comments</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">scores</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">similarity_scores</span><span class="p">):</span>
+        <span class="c1"># Check if all similarity scores are below the threshold</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">score</span> <span class="o">&lt;</span> <span class="n">threshold</span> <span class="k">for</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">):</span>
+            <span class="n">uncovered_comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">uncovered_comments</span>
+
+<span class="c1"># Identify comments that are not well covered by predefined topics</span>
+<span class="n">uncovered_comments</span> <span class="o">=</span> <span class="n">analyze_coverage</span><span class="p">(</span><span class="n">similarity_scores</span><span class="p">)</span>
+
+<span class="c1"># Print results</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">uncovered_comments</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Uncovered Comment: </span><span class="si">{</span><span class="n">new_survey_comments</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="step-4-adjust-topics-if-necessary">Step 4: Adjust Topics if Necessary<a class="headerlink" href="#step-4-adjust-topics-if-necessary" title="Permanent link">&para;</a></h3>
+<p>If you find that several comments are not well covered by the existing topics, you might need to:</p>
+<ul>
+<li><strong>Add New Topics</strong>: Introduce new topics that better capture the themes in the new survey comments.</li>
+<li><strong>Refine Existing Topics</strong>: Adjust the definitions or scope of existing topics to better match the new data.</li>
+</ul>
+<p>By following these steps, you can validate whether your existing topics are sufficient for the new survey and make necessary adjustments to improve coverage.</p>
+<hr />
+<h1 id="step-1-generate-seed-keywords-and-descriptions">Step 1: Generate Seed Keywords and Descriptions<a class="headerlink" href="#step-1-generate-seed-keywords-and-descriptions" title="Permanent link">&para;</a></h1>
+<ol>
+<li><strong>Work Environment</strong></li>
+<li><strong>Seed Keywords</strong>: office, workspace, environment, conditions, safety</li>
+<li>
+<p><strong>Description</strong>: Refers to the physical and psychological conditions of the workplace, including safety, comfort, and overall atmosphere.</p>
+</li>
+<li>
+<p><strong>Compensation and Benefits</strong></p>
+</li>
+<li><strong>Seed Keywords</strong>: salary, benefits, pay, compensation, perks</li>
+<li>
+<p><strong>Description</strong>: Concerns the financial and non-financial rewards provided to employees, such as salary, bonuses, health insurance, and other perks.</p>
+</li>
+<li>
+<p><strong>Management and Leadership</strong></p>
+</li>
+<li><strong>Seed Keywords</strong>: management, leadership, supervisor, boss, direction</li>
+<li>
+<p><strong>Description</strong>: Involves the effectiveness, behavior, and style of managers and leaders within the organization.</p>
+</li>
+<li>
+<p><strong>Career Growth and Development</strong></p>
+</li>
+<li><strong>Seed Keywords</strong>: career, growth, development, promotion, advancement</li>
+<li>
+<p><strong>Description</strong>: Focuses on opportunities for professional development, career advancement, and skill enhancement.</p>
+</li>
+<li>
+<p><strong>Work-Life Balance</strong></p>
+</li>
+<li><strong>Seed Keywords</strong>: work-life, balance, flexibility, hours, personal time</li>
+<li>
+<p><strong>Description</strong>: Pertains to the balance between work responsibilities and personal life, including flexible working hours and remote work options.</p>
+</li>
+<li>
+<p><strong>Company Culture</strong></p>
+</li>
+<li><strong>Seed Keywords</strong>: culture, values, mission, environment, inclusivity</li>
+<li>
+<p><strong>Description</strong>: Relates to the company's values, mission, and overall cultural environment, including inclusivity and diversity.</p>
+</li>
+<li>
+<p><strong>Job Satisfaction</strong></p>
+</li>
+<li><strong>Seed Keywords</strong>: satisfaction, happiness, job, role, contentment</li>
+<li>
+<p><strong>Description</strong>: Measures the level of contentment and fulfillment employees feel in their job roles.</p>
+</li>
+<li>
+<p><strong>Communication</strong></p>
+</li>
+<li><strong>Seed Keywords</strong>: communication, feedback, information, clarity, updates</li>
+<li>
+<p><strong>Description</strong>: Involves the effectiveness and clarity of communication within the organization, including feedback mechanisms.</p>
+</li>
+<li>
+<p><strong>Training and Development</strong></p>
+</li>
+<li><strong>Seed Keywords</strong>: training, development, learning, skills, education</li>
+<li>
+<p><strong>Description</strong>: Concerns the availability and quality of training programs and opportunities for skill development.</p>
+</li>
+<li>
+<p><strong>Job Security</strong></p>
+<ul>
+<li><strong>Seed Keywords</strong>: security, stability, job, position, layoffs</li>
+<li><strong>Description</strong>: Relates to the stability and security of employees' job positions and the organization's future outlook.</li>
+</ul>
+</li>
+</ol>
+<h1 id="step-2-create-and-evaluate-the-model">Step 2: Create and Evaluate the Model<a class="headerlink" href="#step-2-create-and-evaluate-the-model" title="Permanent link">&para;</a></h1>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.multiclass</span> <span class="kn">import</span> <span class="n">OneVsRestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Define topics with their seed keywords and descriptions</span>
+<span class="n">topics</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Work Environment&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;office&quot;</span><span class="p">,</span> <span class="s2">&quot;workspace&quot;</span><span class="p">,</span> <span class="s2">&quot;environment&quot;</span><span class="p">,</span> <span class="s2">&quot;conditions&quot;</span><span class="p">,</span> <span class="s2">&quot;safety&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Compensation and Benefits&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;salary&quot;</span><span class="p">,</span> <span class="s2">&quot;benefits&quot;</span><span class="p">,</span> <span class="s2">&quot;pay&quot;</span><span class="p">,</span> <span class="s2">&quot;compensation&quot;</span><span class="p">,</span> <span class="s2">&quot;perks&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Management and Leadership&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;management&quot;</span><span class="p">,</span> <span class="s2">&quot;leadership&quot;</span><span class="p">,</span> <span class="s2">&quot;supervisor&quot;</span><span class="p">,</span> <span class="s2">&quot;boss&quot;</span><span class="p">,</span> <span class="s2">&quot;direction&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Career Growth and Development&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;career&quot;</span><span class="p">,</span> <span class="s2">&quot;growth&quot;</span><span class="p">,</span> <span class="s2">&quot;development&quot;</span><span class="p">,</span> <span class="s2">&quot;promotion&quot;</span><span class="p">,</span> <span class="s2">&quot;advancement&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Work-Life Balance&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;work-life&quot;</span><span class="p">,</span> <span class="s2">&quot;balance&quot;</span><span class="p">,</span> <span class="s2">&quot;flexibility&quot;</span><span class="p">,</span> <span class="s2">&quot;hours&quot;</span><span class="p">,</span> <span class="s2">&quot;personal time&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Company Culture&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;culture&quot;</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">,</span> <span class="s2">&quot;mission&quot;</span><span class="p">,</span> <span class="s2">&quot;environment&quot;</span><span class="p">,</span> <span class="s2">&quot;inclusivity&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Job Satisfaction&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;satisfaction&quot;</span><span class="p">,</span> <span class="s2">&quot;happiness&quot;</span><span class="p">,</span> <span class="s2">&quot;job&quot;</span><span class="p">,</span> <span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="s2">&quot;contentment&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Communication&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;communication&quot;</span><span class="p">,</span> <span class="s2">&quot;feedback&quot;</span><span class="p">,</span> <span class="s2">&quot;information&quot;</span><span class="p">,</span> <span class="s2">&quot;clarity&quot;</span><span class="p">,</span> <span class="s2">&quot;updates&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Training and Development&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;training&quot;</span><span class="p">,</span> <span class="s2">&quot;development&quot;</span><span class="p">,</span> <span class="s2">&quot;learning&quot;</span><span class="p">,</span> <span class="s2">&quot;skills&quot;</span><span class="p">,</span> <span class="s2">&quot;education&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Job Security&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;stability&quot;</span><span class="p">,</span> <span class="s2">&quot;job&quot;</span><span class="p">,</span> <span class="s2">&quot;position&quot;</span><span class="p">,</span> <span class="s2">&quot;layoffs&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Other Topic&quot;</span><span class="p">:</span> <span class="p">[]</span>
+<span class="p">}</span>
+
+<span class="c1"># Sample survey comments and their topics</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;comment&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;I love the flexible work hours.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;The management is supportive.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Great work-life balance.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Need better communication from the top.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;More opportunities for growth would be nice.&quot;</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;topics&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;Work-Life Balance&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;Management and Leadership&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;Work-Life Balance&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;Communication&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;Career Growth and Development&quot;</span><span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="c1"># Convert to DataFrame</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Binarize the labels</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MultiLabelBinarizer</span>
+<span class="n">mlb</span> <span class="o">=</span> <span class="n">MultiLabelBinarizer</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">topics</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">mlb</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;topics&#39;</span><span class="p">])</span>
+
+<span class="c1"># Vectorize the comments and seed keywords</span>
+<span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
+<span class="n">all_text</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;comment&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="n">kw</span> <span class="k">for</span> <span class="n">kws</span> <span class="ow">in</span> <span class="n">topics</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="n">kws</span><span class="p">]</span>
+<span class="n">vectorizer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">all_text</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;comment&#39;</span><span class="p">])</span>
+
+<span class="c1"># Split the data</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Train the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">OneVsRestClassifier</span><span class="p">(</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Predict on the test set</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Evaluate the model</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="n">mlb</span><span class="o">.</span><span class="n">classes_</span><span class="p">))</span>
+
+<span class="c1"># Function to predict topics with an &quot;Other&quot; category</span>
+<span class="k">def</span> <span class="nf">predict_with_other</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">vectorizer</span><span class="p">,</span> <span class="n">mlb</span><span class="p">,</span> <span class="n">comments</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+    <span class="n">X_new</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">comments</span><span class="p">)</span>
+    <span class="n">probabilities</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_new</span><span class="p">)</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="p">(</span><span class="n">probabilities</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1"># If no topic exceeds the threshold, classify as &quot;Other&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
+            <span class="n">predictions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">predictions</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Assuming the last column is &quot;Other Topic&quot;</span>
+
+    <span class="k">return</span> <span class="n">mlb</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+
+<span class="c1"># Example prediction</span>
+<span class="n">new_comments</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;I appreciate the career development programs.&quot;</span><span class="p">,</span> <span class="s2">&quot;The cafeteria food needs improvement.&quot;</span><span class="p">]</span>
+<span class="n">predicted_topics</span> <span class="o">=</span> <span class="n">predict_with_other</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">vectorizer</span><span class="p">,</span> <span class="n">mlb</span><span class="p">,</span> <span class="n">new_comments</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">predicted_topics</span><span class="p">)</span>
+</code></pre></div>
+<h1 id="step-3-test-the-model-on-new-survey-data">Step 3: Test the Model on New Survey Data<a class="headerlink" href="#step-3-test-the-model-on-new-survey-data" title="Permanent link">&para;</a></h1>
+<div class="highlight"><pre><span></span><code><span class="c1"># New survey comments for testing</span>
+<span class="n">new_survey_comments</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;The office environment is very comfortable and the management is approachable.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;I am not satisfied with the salary and the benefits provided.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;There is a lack of communication and the work-life balance is poor.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;I appreciate the career growth opportunities and the training programs.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;The company culture is inclusive and supportive.&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># Preprocess and vectorize the new survey comments</span>
+<span class="n">new_comment_vectors</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">new_survey_comments</span><span class="p">)</span>
+
+<span class="c1"># Calculate similarity scores for new survey comments</span>
+<span class="k">def</span> <span class="nf">calculate_similarity_scores</span><span class="p">(</span><span class="n">comments</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">):</span>
+    <span class="n">similarity_scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">comment_vector</span> <span class="ow">in</span> <span class="n">comments</span><span class="p">:</span>
+        <span class="n">similarities</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">comment_vector</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">similarity_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">similarities</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">similarity_scores</span>
+
+<span class="c1"># Get similarity scores for new survey comments</span>
+<span class="n">similarity_scores</span> <span class="o">=</span> <span class="n">calculate_similarity_scores</span><span class="p">(</span><span class="n">new_comment_vectors</span><span class="p">,</span> <span class="n">topic_vectors</span><span class="p">)</span>
+
+<span class="c1"># Analyze coverage of predefined topics</span>
+<span class="k">def</span> <span class="nf">analyze_coverage</span><span class="p">(</span><span class="n">similarity_scores</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+    <span class="n">uncovered_comments</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">scores</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">similarity_scores</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">score</span> <span class="o">&lt;</span> <span class="n">threshold</span> <span class="k">for</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">):</span>
+            <span class="n">uncovered_comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">uncovered_comments</span>
+
+<span class="c1"># Identify comments that are not well covered by predefined topics</span>
+<span class="n">uncovered_comments</span> <span class="o">=</span> <span class="n">analyze_coverage</span><span class="p">(</span><span class="n">similarity_scores</span><span class="p">)</span>
+
+<span class="c1"># Print results</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">uncovered_comments</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Uncovered Comment: </span><span class="si">{</span><span class="n">new_survey_comments</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h1 id="step-4-explain-criteria-for-using-the-model-on-new-data">Step 4: Explain Criteria for Using the Model on New Data<a class="headerlink" href="#step-4-explain-criteria-for-using-the-model-on-new-data" title="Permanent link">&para;</a></h1>
+<p>To determine if the model can be used on new data:
+- <strong>Topic Coverage</strong>: Ensure most new comments are well-covered by predefined topics.
+- <strong>Performance Metrics</strong>: Check precision, recall, and F1-score on new data.
+- <strong>Manual Review</strong>: Manually verify the relevance of predicted topics.
+- <strong>Feedback Loop</strong>: Continuously improve the model based on feedback from new data.</p>
+<hr />
+<p>Each row includes seed keywords and a brief description that outlines the essence of each topic.</p>
+<h3 id="enhanced-table-for-topic-modeling">Enhanced Table for Topic Modeling:<a class="headerlink" href="#enhanced-table-for-topic-modeling" title="Permanent link">&para;</a></h3>
+<p>Here is the continuation of the enhanced table after "Regulatory Requirements":</p>
+<table>
+<thead>
+<tr>
+<th><strong>Primary Topic</strong></th>
+<th><strong>Sub-Topic</strong></th>
+<th><strong>Keywords</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Career</td>
+<td>Career Advancement</td>
+<td>promotion, raise, growth, leadership role, skills development</td>
+<td>Opportunities and pathways for employees to advance in their roles and take on higher responsibilities within the organization.</td>
+</tr>
+<tr>
+<td>Career</td>
+<td>Career Mobility</td>
+<td>internal transfer, relocation, role change, job rotation</td>
+<td>The ability of employees to move between roles, departments, or locations within the organization.</td>
+</tr>
+<tr>
+<td>Career</td>
+<td>Career Opportunities</td>
+<td>potential, open roles, promotion chance, development plan</td>
+<td>Access to roles and opportunities for employees to progress professionally and achieve their career goals.</td>
+</tr>
+<tr>
+<td>Career</td>
+<td>Training and Professional Development</td>
+<td>learning, upskilling, courses, certifications, mentorship</td>
+<td>Programs and initiatives to enhance employees' skills, knowledge, and competencies through structured learning.</td>
+</tr>
+<tr>
+<td>Company Direction &amp; Strategy</td>
+<td>Business Decisions</td>
+<td>strategic planning, management decisions, leadership choices</td>
+<td>Decisions made at the organizational level that influence the company’s direction and goals.</td>
+</tr>
+<tr>
+<td>Company Direction &amp; Strategy</td>
+<td>Company Direction</td>
+<td>vision, mission, long-term goals, organizational strategy</td>
+<td>The overall strategy and roadmap for achieving the company's mission and vision.</td>
+</tr>
+<tr>
+<td>Company Direction &amp; Strategy</td>
+<td>Vision</td>
+<td>future outlook, long-term goals, inspiration, mission statement</td>
+<td>The organization’s aspirational goals and its commitment to achieving them.</td>
+</tr>
+<tr>
+<td>Company Direction &amp; Strategy</td>
+<td>Senior Leadership</td>
+<td>executives, C-suite, decision-makers, leadership support</td>
+<td>The effectiveness and approachability of senior leaders in guiding the company and supporting employees.</td>
+</tr>
+<tr>
+<td>Diversity, Equity, &amp; Inclusion</td>
+<td>Diversity, Equity, &amp; Inclusion</td>
+<td>equal opportunity, representation, fairness, belonging, inclusive culture</td>
+<td>Efforts to foster an inclusive environment where employees feel valued regardless of their background.</td>
+</tr>
+<tr>
+<td>Employee Benefits</td>
+<td>Employee Benefits</td>
+<td>perks, benefits, wellness programs, incentives</td>
+<td>The non-salary compensation provided to employees, such as insurance, wellness programs, and additional perks.</td>
+</tr>
+<tr>
+<td>Employee Benefits</td>
+<td>Paid Time Off</td>
+<td>vacation, holidays, PTO, sick leave</td>
+<td>Time off provided to employees as part of their compensation package.</td>
+</tr>
+<tr>
+<td>Employee Benefits</td>
+<td>Pay and Compensation</td>
+<td>salary, bonus, remuneration, incentive structure</td>
+<td>The monetary and non-monetary rewards employees receive for their work.</td>
+</tr>
+<tr>
+<td>Employee Benefits</td>
+<td>Sick Leave</td>
+<td>health leave, illness absence, PTO for illness</td>
+<td>Policies and provisions for employees to take leave for health reasons.</td>
+</tr>
+<tr>
+<td>Employee Experience and Engagement</td>
+<td>Communication and Transparency</td>
+<td>open communication, honesty, clarity, feedback channels</td>
+<td>The level of openness and clarity in communication between employees and leadership.</td>
+</tr>
+<tr>
+<td>Employee Experience and Engagement</td>
+<td>Employee Voice</td>
+<td>feedback, suggestions, employee opinion, participation</td>
+<td>Platforms and opportunities for employees to express their views and provide input.</td>
+</tr>
+<tr>
+<td>Employee Experience and Engagement</td>
+<td>Low Morale</td>
+<td>disengagement, dissatisfaction, unhappiness, lack of motivation</td>
+<td>Signs of low employee satisfaction, which can lead to decreased productivity and retention.</td>
+</tr>
+<tr>
+<td>Employee Experience and Engagement</td>
+<td>Negative Work Experience</td>
+<td>workplace issues, conflicts, unfair treatment</td>
+<td>Instances where employees have had adverse experiences in the workplace.</td>
+</tr>
+<tr>
+<td>Employee Experience and Engagement</td>
+<td>Org Culture</td>
+<td>values, team dynamics, workplace culture</td>
+<td>The prevailing attitudes, values, and practices that define the work environment.</td>
+</tr>
+<tr>
+<td>Employee Experience and Engagement</td>
+<td>Positive Work Experience</td>
+<td>teamwork, recognition, collaboration, achievement</td>
+<td>Instances where employees have had fulfilling and supportive experiences at work.</td>
+</tr>
+<tr>
+<td>Employee Experience and Engagement</td>
+<td>Intent to Leave</td>
+<td>resignation, turnover, quitting, job change</td>
+<td>Indicators that employees are considering leaving the organization.</td>
+</tr>
+<tr>
+<td>Employee Experience and Engagement</td>
+<td>Sense of Value</td>
+<td>recognition, appreciation, importance</td>
+<td>The extent to which employees feel valued and recognized for their contributions.</td>
+</tr>
+<tr>
+<td>Employee Experience and Engagement</td>
+<td>Team Culture</td>
+<td>collaboration, teamwork, support, group dynamics</td>
+<td>The environment and behaviors within teams that impact collaboration and effectiveness.</td>
+</tr>
+<tr>
+<td>Job Security</td>
+<td>Job Stability</td>
+<td>job safety, long-term employment, economic stability</td>
+<td>The perceived and actual assurance of continued employment.</td>
+</tr>
+<tr>
+<td>Life Event</td>
+<td>Internship</td>
+<td>apprenticeship, training program, temporary position</td>
+<td>Early-career opportunities for learning and gaining professional experience.</td>
+</tr>
+<tr>
+<td>Life Event</td>
+<td>Retirement</td>
+<td>pension, end of career, retirement benefits</td>
+<td>Transitioning out of the workforce and the associated support and benefits.</td>
+</tr>
+<tr>
+<td>Manager or Supervisor</td>
+<td>Manager Effectiveness</td>
+<td>leadership skills, decision-making, team support, coaching</td>
+<td>The ability of managers to effectively lead, support, and guide their teams.</td>
+</tr>
+<tr>
+<td>No Topic</td>
+<td>Insufficient Information</td>
+<td>unclear, incomplete, vague responses</td>
+<td>Feedback or survey responses that lack enough context or clarity for analysis.</td>
+</tr>
+<tr>
+<td>Other Topic</td>
+<td>No Topic Match</td>
+<td>unrelated, irrelevant, off-topic</td>
+<td>Feedback or responses that do not align with predefined topics.</td>
+</tr>
+<tr>
+<td>Performance Management</td>
+<td>Customer Service</td>
+<td>client satisfaction, service delivery, client support</td>
+<td>Employees’ feedback on their roles in delivering excellent customer service.</td>
+</tr>
+<tr>
+<td>Performance Management</td>
+<td>Job Expectations</td>
+<td>performance goals, role clarity, task expectations</td>
+<td>Clarity and alignment between employees’ roles and organizational goals.</td>
+</tr>
+<tr>
+<td>Performance Management</td>
+<td>Recognition</td>
+<td>awards, rewards, employee of the month</td>
+<td>Systems and practices for acknowledging employee contributions and achievements.</td>
+</tr>
+<tr>
+<td>Performance Management</td>
+<td>Performance Reviews</td>
+<td>appraisal, feedback, evaluations</td>
+<td>The process and effectiveness of reviewing and providing feedback on employee performance.</td>
+</tr>
+<tr>
+<td>Policies &amp; Procedures</td>
+<td>Non-Compliance</td>
+<td>policy violation, misconduct, rule-breaking</td>
+<td>Instances where employees or processes do not align with company policies.</td>
+</tr>
+<tr>
+<td>Policies &amp; Procedures</td>
+<td>Red Tape</td>
+<td>bureaucracy, slow processes, inefficiency</td>
+<td>Excessive procedures or regulations that impede efficiency and progress.</td>
+</tr>
+<tr>
+<td>Policies &amp; Procedures</td>
+<td>Regulatory Requirements</td>
+<td>compliance, laws, industry standards</td>
+<td>Adherence to external and internal legal or regulatory requirements.</td>
+</tr>
+<tr>
+<td>Policies &amp; Procedures</td>
+<td>Process Changes</td>
+<td>new policies, updated procedures, workflow changes</td>
+<td>Modifications to existing processes and their impact on employees and operations.</td>
+</tr>
+<tr>
+<td>Policies &amp; Procedures</td>
+<td>Risk Management</td>
+<td>risk mitigation, safety protocols, hazard prevention</td>
+<td>Strategies and protocols implemented to manage and mitigate risks within the organization.</td>
+</tr>
+<tr>
+<td>Policies &amp; Procedures</td>
+<td>Wells Fargo Policies</td>
+<td>company policies, guidelines, compliance standards</td>
+<td>Specific guidelines and policies unique to Wells Fargo or any other employer in context.</td>
+</tr>
+<tr>
+<td>Talent Acquisition</td>
+<td>Internal Hiring</td>
+<td>internal mobility, internal promotion, internal transfers</td>
+<td>Opportunities for existing employees to fill open positions within the company.</td>
+</tr>
+<tr>
+<td>Talent Acquisition</td>
+<td>Onboarding</td>
+<td>new hire, orientation, training for new employees</td>
+<td>The process of integrating new hires into the organization, including training and orientation.</td>
+</tr>
+<tr>
+<td>Talent Acquisition</td>
+<td>Recruitment Process</td>
+<td>hiring, interviews, candidate selection</td>
+<td>The practices and processes involved in attracting and selecting candidates for open roles.</td>
+</tr>
+<tr>
+<td>Technology</td>
+<td>Need for Improvement</td>
+<td>system upgrade, software issues, technology enhancement</td>
+<td>Areas where technological tools or systems require enhancement to better support employee workflows.</td>
+</tr>
+<tr>
+<td>Technology</td>
+<td>Technology Process Improvement</td>
+<td>automation, digital transformation, streamlined tools</td>
+<td>Initiatives to improve the efficiency and functionality of technology processes within the organization.</td>
+</tr>
+<tr>
+<td>Technology</td>
+<td>Technology</td>
+<td>IT infrastructure, technical tools, systems</td>
+<td>General employee feedback on technology use, accessibility, and effectiveness in the workplace.</td>
+</tr>
+<tr>
+<td>Unfair Work Environment</td>
+<td>Discrimination</td>
+<td>bias, inequality, racism, unfair treatment</td>
+<td>Instances of unfair or unequal treatment based on personal characteristics, such as race, gender, or age.</td>
+</tr>
+<tr>
+<td>Unfair Work Environment</td>
+<td>Favoritism</td>
+<td>unequal opportunity, preferential treatment, nepotism</td>
+<td>Concerns related to favoritism or biased treatment within teams or departments.</td>
+</tr>
+<tr>
+<td>Unfair Work Environment</td>
+<td>Retaliation</td>
+<td>workplace retaliation, unfair repercussions</td>
+<td>Situations where employees feel punished for raising concerns or complaints.</td>
+</tr>
+<tr>
+<td>Unfair Work Environment</td>
+<td>Toxic Work Environment</td>
+<td>hostility, workplace conflict, toxic behavior</td>
+<td>Feedback on negative or harmful work environments characterized by lack of support, bullying, or other issues.</td>
+</tr>
+<tr>
+<td>Unfair Work Environment</td>
+<td>Unethical Behavior</td>
+<td>policy violations, workplace misconduct, ethical breaches</td>
+<td>Concerns about actions or decisions that violate ethical or professional standards.</td>
+</tr>
+<tr>
+<td>Wellbeing</td>
+<td>Medical Related</td>
+<td>medical leave, health issues, doctor appointments</td>
+<td>Health-related issues that affect employees’ ability to work, including access to medical support.</td>
+</tr>
+<tr>
+<td>Wellbeing</td>
+<td>Mental Health</td>
+<td>stress, anxiety, depression, burnout</td>
+<td>Feedback on how workplace practices and policies impact employees’ mental health and wellbeing.</td>
+</tr>
+<tr>
+<td>Wellbeing</td>
+<td>Psychological Safety</td>
+<td>safe space, open dialogue, fear of retaliation</td>
+<td>The extent to which employees feel safe to speak openly and take risks without fear of negative consequences.</td>
+</tr>
+<tr>
+<td>Wellbeing</td>
+<td>Workplace Safety</td>
+<td>safety measures, hazard prevention, accidents</td>
+<td>Concerns about physical safety in the workplace, including protocols for preventing accidents and ensuring employee well-being.</td>
+</tr>
+<tr>
+<td>Work Balance</td>
+<td>Overworked</td>
+<td>long hours, excessive workload, unmanageable tasks</td>
+<td>Instances where employees feel overwhelmed due to excessive work demands.</td>
+</tr>
+<tr>
+<td>Work Balance</td>
+<td>Understaffed</td>
+<td>lack of resources, manpower shortage, team overextension</td>
+<td>Issues stemming from insufficient staffing to meet workload demands.</td>
+</tr>
+<tr>
+<td>Work Balance</td>
+<td>Burn-out</td>
+<td>exhaustion, mental fatigue, stress</td>
+<td>Chronic stress and physical or emotional exhaustion from work demands.</td>
+</tr>
+<tr>
+<td>Work Balance</td>
+<td>Work Life Balance</td>
+<td>personal time, family time, flexible hours</td>
+<td>Feedback on the ability to balance work responsibilities with personal and family needs.</td>
+</tr>
+<tr>
+<td>Work Location Strategy</td>
+<td>Location Strategy</td>
+<td>relocation, hybrid model, office location</td>
+<td>Policies or strategies related to work locations, including remote work, hybrid work, or office relocations.</td>
+</tr>
+<tr>
+<td>Work Location Strategy</td>
+<td>Relocation</td>
+<td>moving, job transfer, change in location</td>
+<td>Employee feedback on the impact of relocation policies on their personal and professional lives.</td>
+</tr>
+<tr>
+<td>Work Location Strategy</td>
+<td>Working From Home</td>
+<td>remote work, virtual workplace, home office setup</td>
+<td>Feedback on the challenges and benefits of working remotely or in hybrid setups.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+
+
+                 
+<hr />
+<small>Last update 2024-12-09</small>
+ 
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/shanakadesoysa" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/shanaka-desoysa" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.1e8ae164.min.js"></script>
+      
+    
+  </body>
+</html>
