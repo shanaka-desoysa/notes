@@ -38,6 +38,8 @@ jobs:
             --inplace \
             --execute docs/Finance/Precious_Metals_Spot_Prices_Comparison.ipynb \
             --ExecutePreprocessor.timeout=600
+        env:
+          AV_API_KEY: ${{ secrets.AV_API_KEY }}
 
       - name: Deploy docs
         uses: mhausenblas/mkdocs-deploy-gh-pages@master
