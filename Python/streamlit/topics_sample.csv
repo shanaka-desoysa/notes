@@ -1,0 +1,13 @@
+topic,volume,sentiment,theme
+Career Growth,820,0.1,Development
+Pay & Benefits,990,-0.35,Rewards
+Work-Life Balance,620,-0.05,Wellbeing
+Leadership & Direction,720,-0.1,Strategy
+Company Strategy,450,0.05,Strategy
+Recognition,510,0.2,Culture
+Manager Effectiveness,760,-0.15,Leadership
+Learning & Development,580,0.3,Development
+Belonging & Inclusion,390,0.25,Culture
+Productivity & Efficiency,640,0.05,Operations
+Teamwork & Collaboration,700,0.15,Culture
+Customer Focus,300,0.35,Operations
